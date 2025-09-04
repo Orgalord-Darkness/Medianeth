@@ -40,9 +40,10 @@
         private float $duration; 
         private Genre $genre; 
 
-        public function __construct($duration, $genre){
+        public function __construct($titre, $auteur, $disponible,$duration, $genre){
             $this->duration = $duration; 
             $this->genre = $genre; 
+            parent::__construct($titre, $auteur, $disponible);
         }
 
         public function getDuration(){

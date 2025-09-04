@@ -4,9 +4,10 @@
         private int $songNumber; 
         private string $editor ; 
 
-        public function __construct($songNumber, $editor){
+        public function __construct($titre, $auteur, $disponible,$songNumber, $editor){
             $this->songNumber = $songNumber; 
             $this->editor = $editor; 
+            parent::__construct($titre, $auteur, $disponible);
         }
 
         public function getSongNumber(){

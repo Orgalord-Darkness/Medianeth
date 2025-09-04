@@ -3,8 +3,9 @@ class Book extends Media{
     
     private int $pageNumber; 
 
-    public function __construct($pageNumber){
+    public function __construct($titre, $auteur, $disponible,$pageNumber){
         $this->pageNumber = $pageNumber; 
+        parent::__construct($titre, $auteur, $disponible);
     }
 
     public function getPageNumber(){
