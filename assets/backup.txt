@@ -1,0 +1,23 @@
+CREATE TABLE movie(id INT(11) PRIMARY KEY AUTO_INCREMENT, titre VARCHAR(100), auteur VARCHAR(100), disponible BOOLEAN, duration double , genre ENUM);
+
+  
+CREATE TABLE album(id INT(11) PRIMARY KEY AUTO_INCREMENT, titre VARCHAR(100), auteur VARCHAR(100), disponible BOOLEAN, songNumber INT(11), editor VARCHAR(255)); 
+
+
+<?php 
+
+abstract class Connexion {
+    static string $serveur = "";
+    static string $utilisateur = "";
+    static string $mdp = "";
+    static string $base_de_donnees = "";
+
+    public function connexion(){
+        try{
+            $connexion = new PDO("mysql:host:".$this->serveur."dbName=".$this->base_de_donnees.",".$this->utilisateur,$this->mdp) ;
+            $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+        }catch(PDOException $e){
+            die("Echec de la connexion : ".$e->getMessage()); 
+        }
+    }
+}
