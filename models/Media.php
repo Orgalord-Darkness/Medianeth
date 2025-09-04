@@ -1,0 +1,38 @@
+<?php 
+/**
+ * Classe des différents médias contenus dans la médiathèque
+ * @param $titre = titre de l'oeuvre
+ * @param $auteur = auteur de l'oeuvre
+ * @param $disponible = disponibilité de l'oeuvre dans la médiathèque
+ */
+class Media {
+    private string $titre; 
+    private string $auteur; 
+    private bool $disponible; 
+
+    public function __construct($titre, $auteur, $disponible){
+        $this->titre = $titre; 
+        $this->auteur = $auteur; 
+        $this->disponible = $disponible; 
+    }
+    
+    public function getTitre() {
+        return $this->titre; 
+    }
+
+    public function setTitre(string $titre) {
+        $this->titre = $titre; 
+    }
+
+    public function getAuteur(){
+        return $this->auteur; 
+    }
+
+    public function setAuteur(string $auteur){
+        $this->auteur = $auteur; 
+    }
+
+    public function getDisponible(){
+        return $this->disponible; 
+    }
+}
