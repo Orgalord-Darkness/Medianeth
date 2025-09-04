@@ -1,15 +1,15 @@
 <?php 
-/**
- * Classe des différents médias contenus dans la médiathèque
- * @param $titre = titre de l'oeuvre
- * @param $auteur = auteur de l'oeuvre
- * @param $disponible = disponibilité de l'oeuvre dans la médiathèque
- */
 class Media {
     private string $titre; 
     private string $auteur; 
     private bool $disponible; 
 
+    /**
+     * Classe des différents médias contenus dans la médiathèque
+     * @param $titre = titre de l'oeuvre
+     * @param $auteur = auteur de l'oeuvre
+     * @param $disponible = disponibilité de l'oeuvre dans la médiathèque
+     */
     public function __construct($titre, $auteur, $disponible){
         $this->titre = $titre; 
         $this->auteur = $auteur; 
