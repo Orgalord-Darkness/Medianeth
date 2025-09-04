@@ -35,4 +35,19 @@ class Media {
     public function getDisponible(){
         return $this->disponible; 
     }
+
+    /**
+     * Méthode pour rendre un média et le mettre à disponibilité true 
+     */
+    public function rendre(){
+        $this->disponible = true; 
+    }
+
+    /**
+     * Méthode pour emprunter un média et le mettre à disponibilité false 
+     */
+    public function emprunter(){
+        $this->disponible = false; 
+        return $this->disponible ; 
+    }
 }
