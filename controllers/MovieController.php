@@ -1,6 +1,4 @@
 <?php 
-
-
     function adminMovie(){
 		$movies = Movie::GetMovie() ; 
         require_once('views/administration.php') ; 

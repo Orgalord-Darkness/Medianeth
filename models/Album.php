@@ -1,5 +1,5 @@
 <?php
-    class Movie extends Media{
+    class Album extends Media{
 
         private int $songNumber; 
         private string $editor ; 
