@@ -1,8 +1,8 @@
 <?php 
-
+	include_once('models/Book.php');
 
     function adminBook(){
-		$books = Book::GetBook() ; 
+		//$books = Book::GetBook() ; 
         require_once('views/administration.php') ; 
 	}
 
