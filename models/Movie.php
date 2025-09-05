@@ -97,7 +97,7 @@
     public static function update($titre, $auteur, $disponible,$duration, $genre){
         try{
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("UPDATE `movie` `titre`=:title, `auteur`=:author, `disponibility`=:disponibility, `duration`=:duration, `genre`=:genre, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
+            $requete = $connexion->prepare("UPDATE `movie` `titre`=:title, `auteur`=:author, `disponible`=:disponibility, `duree`=:duration, `genre`=:genre, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
             $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
             $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
             $requete->bindParam(':disponible', $disponible, PDO::PARAM_BOOL) ; 

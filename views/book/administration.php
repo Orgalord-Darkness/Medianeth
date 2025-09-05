@@ -1,17 +1,3 @@
-<?php
-// admin_books_view.php
-// Vue PHP pour l'administration des livres
-// Attendu :
-//   - $books : array of associative arrays with keys: titre, auteur, disponible (bool), pages
-
-if (!isset($books)) {
-    $books = [
-        ['titre' => 'Le Petit Prince', 'auteur' => 'Antoine de Saint-Exupéry', 'disponible' => true, 'pages' => 96],
-        ['titre' => 'L\'Etranger', 'auteur' => 'Albert Camus', 'disponible' => false, 'pages' => 185],
-        ['titre' => 'Les Misérables', 'auteur' => 'Victor Hugo', 'disponible' => true, 'pages' => 1232],
-    ];
-}
-?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -51,11 +37,11 @@ if (!isset($books)) {
       <tbody>
         <?php foreach ($books as $book): ?>
           <tr>
-            <td><?= htmlspecialchars($book['titre']) ?></td>
-            <td><?= htmlspecialchars($book['auteur']) ?></td>
-            <td><?= (int)$book['pages'] ?></td>
+            <td><?= htmlspecialchars($book['title']) ?></td>
+            <td><?= htmlspecialchars($book['author']) ?></td>
+            <td><?= (int)$book['pageNumber'] ?></td>
             <td>
-              <?php if ($book['disponible']): ?>
+              <?php if ($book['disponibility']): ?>
                 <span class="status ok">Disponible</span>
               <?php else: ?>
                 <span class="status no">Indisponible</span>
