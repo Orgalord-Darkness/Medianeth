@@ -1,13 +1,13 @@
 <?php 
 
 
-    function AdminOccupancy(){
-		$occupancies = Book::GetBook() ; 
+    function adminBook(){
+		$books = Book::GetBook() ; 
         require_once('views/administration.php') ; 
 	}
 
-	function libraryOccupancy(){
-		$occupancies = Book::GetBook(); 
+	function libraryBook(){
+		$books = Book::GetBook(); 
 		require_once('views/ocupancy/library.php') ; 
 	}
 
@@ -24,7 +24,7 @@
 				echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
 			}
 		}else{ 
-			echo '<script>window.location.href = "/heure_dvt/Administration/Admin/";</script>';
+			echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
 		}
 	}
 
@@ -40,7 +40,7 @@
                     $numberPage = $_POST['numberPage']; 
 					if(!empty($titre)&&!empty($auteur) && !empty($disponible) && !empty($numberPage)){
 						$book = Book::update($titre, $auteur, $disponible, $numberPage, time(), time())  ;  
-						echo '<script>window.location.href = "/heure_dvt/Administration/Admin/";</script>';
+						echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
 					}
 				}else{
 					echo "remplir tous les champs " ; 
@@ -57,7 +57,7 @@
 				if(isset($_POST['ask'])){ 
 					if($_POST['ask'] == 'confirm'){ 
 						$book = Book::delete($id) ;  
-						echo '<script>window.location.href = "/heure_dvt/Administration/Admin/";</script>';
+						echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
 					}
 				}
 			}else{ 
