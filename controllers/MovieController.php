@@ -1,7 +1,7 @@
 <?php 
     function adminMovie(){
 		$movies = Movie::GetMovie() ; 
-        require_once('views/administration.php') ; 
+        require_once('views/movie/administration.php') ; 
 	}
 
 	function libraryMovie(){

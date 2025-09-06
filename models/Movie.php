@@ -64,7 +64,7 @@
 
         public static function GetMovie(){ 
         $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT titre,auteur,disponible,duration,genre FROM movie") ; 
+        $requete = $connexion->prepare("SELECT title,author,disponibility,duration,genre FROM movie") ; 
         $requete->execute() ; 
         $movies = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
         return $movies ; 
@@ -72,7 +72,7 @@
 
     public static function GetMovieById($id){
         $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT titre,auteur,disponible,duration,genre FROM movie WHERE movie_id = :id") ; 
+        $requete = $connexion->prepare("SELECT title,author,disponibility,duration,genre FROM movie WHERE movie_id = :id") ; 
         $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
         $requete->execute() ; 
         $movies = $requete->fetchAll(PDO::FETCH_ASSOC) ; 

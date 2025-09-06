@@ -1,12 +1,7 @@
 <?php
     function adminAlbum(){
 		$albums = Album::GetAlbum() ; 
-        require_once('views/administration.php') ; 
-	}
-
-	function libraryAlbum(){
-		$albums = Album::GetAlbum();
-		require_once('views/movie/library.php') ; 
+        require_once('views/album/administration.php') ; 
 	}
 
 	function addAlbum(){

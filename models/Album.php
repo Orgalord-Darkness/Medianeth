@@ -28,7 +28,7 @@
 
         public static function GetAlbum(){ 
         $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT titre,auteur,disponible,songNumber,editor FROM album") ; 
+        $requete = $connexion->prepare("SELECT title,author,disponibility,songNumber,editor FROM album") ; 
         $requete->execute() ; 
         $albums = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
         return $albums ; 
@@ -36,7 +36,7 @@
 
     public static function GetAlbumById($id){
         $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT titre,auteur,disponible,songNumber,editor FROM album WHERE album_id = :id") ; 
+        $requete = $connexion->prepare("SELECT title,author,disponibility,songNumber,editor FROM album WHERE album_id = :id") ; 
         $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
         $requete->execute() ; 
         $albums = $requete->fetchAll(PDO::FETCH_ASSOC) ; 

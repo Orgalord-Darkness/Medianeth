@@ -35,13 +35,13 @@
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($books as $book): ?>
+        <?php foreach ($books as $row): ?>
           <tr>
-            <td><?= htmlspecialchars($book['title']) ?></td>
-            <td><?= htmlspecialchars($book['author']) ?></td>
-            <td><?= (int)$book['pageNumber'] ?></td>
+            <td><?= htmlspecialchars($row['title']) ?></td>
+            <td><?= htmlspecialchars($row['author']) ?></td>
+            <td><?= (int)$row['pageNumber'] ?></td>
             <td>
-              <?php if ($book['disponibility']): ?>
+              <?php if ($row['disponibility']): ?>
                 <span class="status ok">Disponible</span>
               <?php else: ?>
                 <span class="status no">Indisponible</span>

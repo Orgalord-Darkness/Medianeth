@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="row  slide" style ="position : sticky ; margin-bottom : 5% ; z-index:1000 ;background-color: #98DDFF; height:10% ; width : 100% ;box-shadow: 0 0 20px 2px rgb(0,0,10)" >
     <div class="col-4 ">
         
@@ -7,7 +7,7 @@
         <h4 class="text-center header_text ">Medianeth</h4>
     </div>
     <div class="col-1"></div>
-</div>
+</div> -->
 <button class="btn btn-primary button-fixed" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" id='colorChangeButton' title="menu">
   <i class="fa-solid fa-bars"></i>
 </button>
@@ -44,28 +44,28 @@ setInterval(toggleColor, 500);
   <div class="offcanvas-body">
     <hr>
         <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item">
+            <a href="/Medianeth/Home/library/" class="nav-link link-dark" title="vue d'ensembe">
+            <i class="fa-solid fa-eye"></i>
+               Accueil
+            </a>
+        </li>
         <li class="nav-item">
             <a href="/Medianeth/Book/adminBook/" class="nav-link link-dark" title="vue d'ensembe">
             <i class="fa-solid fa-eye"></i>
-            Accueil
+               Livre
             </a>
         </li>
         <li>
-            <a href="/heure_dvt/Days/planning" class="nav-link link-dark" title="rechercher le planning d'un employer">
+            <a href="/Medianeth/Movie/adminMovie" class="nav-link link-dark" title="rechercher le planning d'un employer">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                Recherche
+                Film
             </a>
         </li>
         <li>
-            <a href="/heure_dvt/Days/stats/" class="nav-link link-dark" title="statistiques des heures">
+            <a href="/Medianeth/Movie/adminAlbum" class="nav-link link-dark" title="statistiques des heures">
                 <i class="fa-solid fa-chart-line"></i>
-                Statistiques
-            </a>
-        </li>
-        <li>
-            <a href="/heure_dvt/Administration/Admin" class="nav-link link-dark" title="espace d'administration">
-                <i class="fa-solid fa-user-tie"></i>
-                Administration
+                Album
             </a>
         </li>
         </ul>
