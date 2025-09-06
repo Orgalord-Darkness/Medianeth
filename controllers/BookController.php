@@ -12,56 +12,71 @@
 	}
 
 	function addBook(){
-		if(isset($_POST['titre']) && isset($_POST['auteur'])&& isset($_POST['disponible'])&& isset($_POST['numberPage'])){
-			$titre = $_POST['titre'] ; 
-			$auteur = $_POST['auteur'] ; 
-            $disponible = $_POST['disponible'];
-            $numberPage = $_POST['numberPage'];
+		$fonction = "Ajouter";
+		if(isset($_POST['title']) && isset($_POST['author'])&& isset($_POST['disponibility'])&& isset($_POST['pageNumber'])){
+			$titre = $_POST['title'] ; 
+			$auteur = $_POST['author'] ; 
+            $disponible = $_POST['disponibility'];
+            $numberPage = $_POST['pageNumber'];
 
 			if(!empty($titre)&&!empty($auteur) && !empty($disponible) && !empty($numberPage)){
-				$book = new Book($titre, $auteur, $disponible, $numberPage, time(), time()); 
-				$book = Book::create($titre, $auteur, $disponible, $numberPage, time(), time()) ; 
-				echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
+				$book = new Book($titre, $auteur, $disponible, $numberPage); 
+				$book = Book::create($titre, $auteur, $disponible, $numberPage) ; 
+				echo '<script>window.location.href = "/Medianeth/Book/adminBook";</script>';
+			}else{
+				$message = "champ vide" ; 
 			}
-		}else{ 
-			echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
 		}
+		require_once('views/book/add.php');
 	}
 
 	function updateBook($id){
+		$fonction = "Modifier";
+		$book = Book::GetBookById($id) ;  
+		$title = $book['title'];
+		$author = $book['author'];
+		$disponibility = $book['disponibility'];
+		$pageNumber = $book['pageNumber'];
+		
 		if(isset($_POST['book_id'])){
-			$id = $_POST['book_id'] ; 
+			$id = $_POST['book_id'];
 			$book = Book::GetBookById($id) ;  
 			if(!empty($book)){
-				if(isset($_POST['titre']) && isset($_POST['auteur'])&& isset($_POST['disponible'])&& isset($_POST['numberPage'])){
-                    $titre = $_POST['titre'] ; 
-                    $auteur = $_POST['auteur'] ; 
-                    $disponible = $_POST['disponible'];
-                    $numberPage = $_POST['numberPage']; 
-					if(!empty($titre)&&!empty($auteur) && !empty($disponible) && !empty($numberPage)){
-						$book = Book::update($titre, $auteur, $disponible, $numberPage, time(), time())  ;  
-						echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
+				if(isset($_POST['title']) && isset($_POST['author'])&& isset($_POST['disponibility'])&& isset($_POST['pageNumber'])){
+					$titre = $_POST['title'] ; 
+					$auteur = $_POST['author'] ; 
+					$disponible = $_POST['disponibility'];
+					$numberPage = $_POST['pageNumber'];
+					if(!empty($titre)&& !empty($auteur) && !empty($disponible) && !empty($numberPage)){
+						$book = Book::update($id, $titre, $auteur, $disponible, $numberPage);
+						echo '<script>window.location.href = "/Medianeth/Book/adminBook";</script>'; 
+					}else{
+						$message = "champ vide";
 					}
 				}else{
-					echo "remplir tous les champs " ; 
+					$message =  "remplir tous les champs " ; 
 				}
+			}else{
+				$message = "objet vide"; 
 			}
 		}
+		require_once('views/book/add.php');
 	}
 
-	function deleteBook($id){
+	function deleteBook(){
 		if(isset($_POST['book_id'])){
 			$id = $_POST['book_id'] ; 
 			$book = Book::GetBookById($id) ;  
 			if(!empty($book)){
 				if(isset($_POST['ask'])){ 
-					if($_POST['ask'] == 'confirm'){ 
+					if($_POST['ask'] == 'Supprimer'){ 
 						$book = Book::delete($id) ;  
-						echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
+						echo '<script>window.location.href = "/Medianeth/Book/adminBook";</script>'; 
 					}
 				}
 			}else{ 
 				echo "suppression annuler" ; 
 			}	
 		}
+		require_once('views/book/delete.php');
     }

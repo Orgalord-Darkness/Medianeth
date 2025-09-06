@@ -6,6 +6,7 @@ include_once('models/Media.php');
 include_once('models/Book.php'); 
 include_once('models/Movie.php'); 
 include_once('models/Album.php'); 
+include_once('models/User.php');
 include_once('views/menu.php') ; 
 
 if(isset($_GET['action']) && !empty($_GET['action'])){

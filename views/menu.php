@@ -40,7 +40,6 @@ setInterval(toggleColor, 500);
     <h5 class="offcanvas-title" id="staticBackdropLabel"><i class="fa-solid fa-bars"></i></h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <img src ="/heure_dvt/assets/img/ec2e.png" class="img-fluid" alt="Image fluide"/>
   <div class="offcanvas-body">
     <hr>
         <ul class="nav nav-pills flex-column mb-auto">
@@ -66,6 +65,18 @@ setInterval(toggleColor, 500);
             <a href="/Medianeth/Movie/adminAlbum" class="nav-link link-dark" title="statistiques des heures">
                 <i class="fa-solid fa-chart-line"></i>
                 Album
+            </a>
+        </li>
+        <li>
+            <a href="/Medianeth/User/login" class="nav-link link-dark" title="statistiques des heures">
+                <i class="fa-solid fa-chart-line"></i>
+                Connexion
+            </a>
+        </li>
+        <li>
+            <a href="/Medianeth/User/signin" class="nav-link link-dark" title="statistiques des heures">
+                <i class="fa-solid fa-chart-line"></i>
+                Inscription
             </a>
         </li>
         </ul>

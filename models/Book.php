@@ -23,7 +23,7 @@ class Book extends Media{
 
     public static function GetBook(){ 
         $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT title,author,disponibility,pageNumber FROM book") ; 
+        $requete = $connexion->prepare("SELECT book_id, title,author,disponibility,pageNumber FROM book") ; 
         $requete->execute() ; 
         $books = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
         return $books ; 
@@ -31,20 +31,20 @@ class Book extends Media{
 
     public static function GetBookById($id){
         $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT title,author,disponibility,pageNumberFROM book WHERE book_id = :id") ; 
+        $requete = $connexion->prepare("SELECT book_id, title,author,disponibility,pageNumber FROM book WHERE book_id = :id") ; 
         $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
         $requete->execute() ; 
-        $book = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+        $book = $requete->fetch(PDO::FETCH_ASSOC) ; 
         return $book ; 
     }
 
     public static function create($titre, $auteur, $disponible,$pageNumber){
         try{
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("INSERT INTO `book` VALUES(Null, :title, :author, :disponibility, :pageNumber CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
+            $requete = $connexion->prepare("INSERT INTO `book`(book_id, title, author, disponibility,pageNumber,created_at,updated_at) VALUES(Null, :title, :author, :disponibility, :pageNumber, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
             $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
             $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
-            $requete->bindParam(':disponible', $disponible, PDO::PARAM_BOOL) ; 
+            $requete->bindParam(':disponibility', $disponible, PDO::PARAM_INT) ; 
             $requete->bindParam(':pageNumber', $pageNumber, PDO::PARAM_INT) ; 
             $requete->execute() ; 
         }catch(PDOException $e){
@@ -52,13 +52,14 @@ class Book extends Media{
         }
     }
 
-    public static function update($titre, $auteur, $disponible,$pageNumber){
+    public static function update($id, $titre, $auteur, $disponible,$pageNumber){
         try{
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("UPDATE `book` `title`=:title, `author`=:author, `disponibility`=:disponibility, `pageNumber`=:pageNumber CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
+            $requete = $connexion->prepare("UPDATE `book` SET `title`=:title, `author`=:author, `disponibility`=:disponibility, `pageNumber`=:pageNumber, `updated_at`=CURRENT_TIMESTAMP WHERE `book_id`=:id;") ; 
+            $requete->bindParam(':id', $id, PDO::PARAM_INT) ;
             $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
             $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
-            $requete->bindParam(':disponible', $disponible, PDO::PARAM_BOOL) ; 
+            $requete->bindParam(':disponibility', $disponible, PDO::PARAM_INT) ; 
             $requete->bindParam(':pageNumber', $pageNumber, PDO::PARAM_INT) ; 
             $requete->execute() ; 
         }catch(PDOException $e){

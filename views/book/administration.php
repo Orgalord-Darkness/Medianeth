@@ -10,7 +10,7 @@
     table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden;}
     thead{background:#2463eb;color:#fff;}
     th,td{padding:12px;text-align:left;border-bottom:1px solid #eee;}
-    tr:hover{background:#f0f2f5;}
+    .line:hover{background:#f0f2f5;}
     .status{padding:4px 8px;border-radius:4px;font-size:12px;font-weight:bold;}
     .status.ok{background:#d1fae5;color:#065f46;}
     .status.no{background:#fee2e2;color:#991b1b;}
@@ -24,6 +24,10 @@
   <?php if (count($books) === 0){ ?>
     <div class="empty">Aucun livre trouvé.</div>
   <?php }else{ ?>
+  
+    <button class="btn btn_primary">
+      <a href = "/Medianeth/Book/addBook">+</a>
+    </button>
     <table>
       <thead>
         <tr>
@@ -36,7 +40,7 @@
       </thead>
       <tbody>
         <?php foreach ($books as $row): ?>
-          <tr>
+          <tr class="line">
             <td><?= htmlspecialchars($row['title']) ?></td>
             <td><?= htmlspecialchars($row['author']) ?></td>
             <td><?= (int)$row['pageNumber'] ?></td>
@@ -49,8 +53,13 @@
             </td>
             <td class="actions">
               <a href="#">Voir</a>
-              <a href="#">Éditer</a>
-              <a href="#" style="color:#d64545">Supprimer</a>
+              <a href="/Medianeth/Book/updateBook/<?php echo $row['book_id'];?>">Éditer</a>
+              <form action="/Medianeth/Book/deleteBook" method="post" class="d-inline">
+                <input type="hidden" name="book_id" value="<?= htmlspecialchars($row['book_id']) ?>">
+                <button type="submit" class="btn btn-link p-0" style="color:#d64545; text-decoration:none;">
+                  Supprimer
+                </button>
+              </form>
             </td>
           </tr>
         <?php endforeach; ?>
