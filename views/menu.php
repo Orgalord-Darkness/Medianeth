@@ -62,7 +62,7 @@ setInterval(toggleColor, 500);
             </a>
         </li>
         <li>
-            <a href="/Medianeth/Movie/adminAlbum" class="nav-link link-dark" title="statistiques des heures">
+            <a href="/Medianeth/Album/adminAlbum" class="nav-link link-dark" title="statistiques des heures">
                 <i class="fa-solid fa-chart-line"></i>
                 Album
             </a>

@@ -21,7 +21,7 @@
 			if(!empty($titre)&&!empty($auteur) && !empty($disponible) && !empty($duration) && !empty($genre)){
 				$movie = new Movie($titre, $auteur, $disponible, $duration, $genre); 
 				$movie = Movie::create($titre, $auteur, $disponible, $duration, $genre) ; 
-				// echo '<script>window.location.href = "/Medianeth/Movie/adminMovie";</script>';
+				echo '<script>window.location.href = "/Medianeth/Movie/adminMovie";</script>';
 			}else{
 				$message = "champ vide" ; 
 			}
@@ -80,8 +80,10 @@
 					echo '<script>window.location.href = "/Medianeth/Movie/adminMovie/";</script>';
 				}
 			}else{ 
-				echo "suppression annuler" ; 
+				$message= "suppression annuler" ; 
 			}	
+		}else{
+			$message="Test";
 		}
 		require_once('views/movie/delete.php');
     }
