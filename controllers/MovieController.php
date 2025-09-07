@@ -1,7 +1,7 @@
 <?php 
     function adminMovie(){
 		$movies = Movie::GetMovie() ; 
-        require_once('views/movie/administration.php') ; 
+        require_once('views/movie/read.php') ; 
 	}
 
 	function libraryMovie(){
@@ -10,59 +10,78 @@
 	}
 
 	function addMovie(){
-		if(isset($_POST['titre']) && isset($_POST['auteur'])&& isset($_POST['disponible'])&& isset($_POST['duration']) && isset($_POST['genre'])){
-			$titre = $_POST['titre'] ; 
-			$auteur = $_POST['auteur'] ; 
-            $disponible = $_POST['disponible'];
+		$fonction = "Ajouter";
+		if(isset($_POST['title']) && isset($_POST['author'])&& isset($_POST['disponibility'])&& isset($_POST['duration']) && isset($_POST['genre'])){
+			$titre = $_POST['title'] ; 
+			$auteur = $_POST['author'] ; 
+            $disponible = $_POST['disponibility'];
             $duration = $_POST['duration'];
-            $genre = $_POST['genre'];
+			$genre = $_POST['genre'];
 
-			if(!empty($titre)&&!empty($auteur) && !empty($disponible) && !empty($duration)&& !empty($genre)){
-				$movie = new Movie($titre, $auteur, $disponible, $duration,$genre,  time(), time()); 
-				$movie = Movie::create($titre, $auteur, $disponible, $duration,$genre, time(), time()) ; 
-				echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
+			if(!empty($titre)&&!empty($auteur) && !empty($disponible) && !empty($duration) && !empty($genre)){
+				$movie = new Movie($titre, $auteur, $disponible, $duration, $genre); 
+				$movie = Movie::create($titre, $auteur, $disponible, $duration, $genre) ; 
+				// echo '<script>window.location.href = "/Medianeth/Movie/adminMovie";</script>';
+			}else{
+				$message = "champ vide" ; 
 			}
-		}else{ 
-			echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
 		}
+		require_once('views/movie/form.php');
 	}
 
 	function updateMovie($id){
+		$fonction = "Modifier";
+		$movie = Movie::GetMovieById($id) ;  
+		$title = $movie['title'];
+		$author = $movie['author'];
+		$disponibility = $movie['disponibility'];
+		$duration = $movie['duration'];
+		$genre = $movie['genre'];
+		
 		if(isset($_POST['movie_id'])){
-			$id = $_POST['movie_id'] ; 
-			$movie = Movie::GetMovieById($id) ;  
+			$id = $_POST['movie_id'];
+			$movie = Movie::GetMovieById($id) ;
+			$title = $movie['title'];
+			$author = $movie['author'];
+			$disponibility = $movie['disponibility'];
+			$duration = $movie['duration'];
+			$genre = $movie['genre'];
 			if(!empty($movie)){
-				if(isset($_POST['titre']) && isset($_POST['auteur'])&& isset($_POST['disponible'])&& isset($_POST['duration']) && isset($_POST['genre'])){
-                    $titre = $_POST['titre'] ; 
-                    $auteur = $_POST['auteur'] ; 
-                    $disponible = $_POST['disponible'];
-                    $duration = $_POST['duration'];
-                    $genre = $_POST['genre'];
-                    
-					if(!empty($titre)&&!empty($auteur) && !empty($disponible) && !empty($duration)&& !empty($genre)){
-						$movie = Movie::update($titre, $auteur, $disponible, $duration,$genre, time(), time())  ;  
-						echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
+				if(isset($_POST['title']) && isset($_POST['author'])&& isset($_POST['disponibility'])&& isset($_POST['duration']) && isset($_POST['genre'])){
+					$titre = $_POST['title'] ; 
+					$auteur = $_POST['author'] ; 
+					$disponible = $_POST['disponibility'];
+					$duration = $_POST['duration'];
+					$genre = $_POST['genre'];
+
+					if(!empty($titre)&& !empty($auteur) && !empty($disponible) && !empty($duration) && !empty($genre)){
+						$movie = Movie::update($id, $titre, $auteur, $disponible, $duration, $genre);
+						echo '<script>window.location.href = "/Medianeth/Movie/adminMovie";</script>'; 
+					}else{
+						$message = "champ vide";
 					}
 				}else{
-					echo "remplir tous les champs " ; 
+					$message =  "remplir tous les champs " ; 
 				}
+			}else{
+				$message = "objet vide"; 
 			}
 		}
+		require_once('views/movie/form.php');
 	}
 
-	function deleteMovie($id){
+	function deleteMovie(){
 		if(isset($_POST['movie_id'])){
 			$id = $_POST['movie_id'] ; 
 			$movie = Movie::GetMovieById($id) ;  
 			if(!empty($movie)){
 				if(isset($_POST['ask'])){ 
-					if($_POST['ask'] == 'confirm'){ 
-						$movie = Movie::delete($id) ;  
-						echo '<script>window.location.href = "/medianeth/Administration/Admin/";</script>';
-					}
+					$movie = Movie::delete($id) ;  
+					echo '<script>window.location.href = "/Medianeth/Movie/adminMovie/";</script>';
 				}
 			}else{ 
 				echo "suppression annuler" ; 
 			}	
 		}
+		require_once('views/movie/delete.php');
     }
