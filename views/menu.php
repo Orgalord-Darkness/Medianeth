@@ -51,31 +51,31 @@ setInterval(toggleColor, 500);
         </li>
         <li class="nav-item">
             <a href="/Medianeth/Book/adminBook/" class="nav-link link-dark" title="vue d'ensembe">
-            <i class="fa-solid fa-eye"></i>
+            <i class="fa-solid fa-book"></i>
                Livre
             </a>
         </li>
         <li>
             <a href="/Medianeth/Movie/adminMovie" class="nav-link link-dark" title="rechercher le planning d'un employer">
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <i class="fa-solid fa-film"></i>
                 Film
             </a>
         </li>
         <li>
             <a href="/Medianeth/Album/adminAlbum" class="nav-link link-dark" title="statistiques des heures">
-                <i class="fa-solid fa-chart-line"></i>
+                <i class="fa-solid fa-record-vinyl"></i>
                 Album
             </a>
         </li>
         <li>
             <a href="/Medianeth/User/login" class="nav-link link-dark" title="statistiques des heures">
-                <i class="fa-solid fa-chart-line"></i>
+                <i class="fa-solid fa-person"></i>
                 Connexion
             </a>
         </li>
         <li>
             <a href="/Medianeth/User/signin" class="nav-link link-dark" title="statistiques des heures">
-                <i class="fa-solid fa-chart-line"></i>
+                <i class="fa-solid fa-person"></i>
                 Inscription
             </a>
         </li>
