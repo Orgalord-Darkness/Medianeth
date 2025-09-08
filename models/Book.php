@@ -92,7 +92,6 @@ class Book extends Media{
 
     public static function emprunter($id){
         try{
-            var_dump($id);
             $connexion = connexionBdd(); 
             $requete = $connexion->prepare("UPDATE `book` SET `disponibility` = 0 WHERE `book_id` = :id"); 
             $requete->bindParam(':id',$id,PDO::PARAM_INT); 

@@ -1,48 +1,43 @@
-<div class="container ">
-    <div class="panel panel-default ">
-        <div class="panel-heading">
-            <h2 class="panel-title text-center"><?php if(isset($fonction)){ echo $fonction ; }?> un livre</h2>
+<div class="container my-5">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white text-center">
+            <h2 class="mb-0"><?php if(isset($fonction)){ echo $fonction ; }?> un livre</h2>
         </div>
-        <div class="panel-body text-center ">
-            <form method="post">
-                <div class="row d-flex justify-content-center align-items-center">
-                    <div class="col-md-6 col-md-offset-3">
-                        <div class="form-group">
-                            <label for="title">Titre </label>
-                            <input type="text" class='form-control' id="title" name="title" value="<?php if(isset($title)){ echo $title ;}?>"required>
-                        </div>
-                    </div>
+        <div class="card-body">
+            <form method="post" class="p-3">
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="label-title">Titre</span>
+                    <input type="text" class="form-control" id="title" name="title"
+                           value="<?php if(isset($title)){ echo $title ;}?>" 
+                           required aria-describedby="label-title">
                 </div>
-                <div class="row d-flex justify-content-center align-items-center">
-                    <div class="col-md-6 col-md-offset-3">
-                        <div class="form-group">
-                            <label for="author">Auteur </label>
-                            <input type="text" class='form-control' id="author" name="author" value="<?php if(isset($author)){ echo $author ;}?>" required>
-                        </div>
-                    </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="label-author">Auteur</span>
+                    <input type="text" class="form-control" id="author" name="author"
+                           value="<?php if(isset($author)){ echo $author ;}?>" 
+                           required aria-describedby="label-author">
                 </div>
-                <div class="row d-flex justify-content-center align-items-center">
-                    <div class="col-md-6 col-md-offset-3">
-                        <div class="form-group">
-                            <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off" name="disponibility" value="1" checked>
-                            <label class="btn btn-outline-success" for="btncheck2">Disponible</label>
-                        </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input type="checkbox" class="form-check-input mt-0" id="disponibility" name="disponibility" value="1" checked>
                     </div>
+                    <label class="form-control" for="disponibility">Disponible</label>
                 </div>
-                <div class="mb-10 row d-flex justify-content-center align-items-center">
-                    <div class="col-md-6 col-md-offset-3">
-                        <div class="form-group">
-                            <label for="pageNumber">Nombre de pages </label>
-                            <input type="number" class='form-control' id="pageNumber" name="pageNumber" value="<?php if(isset($pageNumber)){ echo $pageNumber ;}?>" required>
-                        </div>
-                        <p class="text-danger"><?php if(isset($message)){ echo ($message) ; } ?><p>
-                    </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="label-pageNumber">Nombre de pages</span>
+                    <input type="number" class="form-control"name="pageNumber" value="<?php if(isset($pageNumber)){ echo $pageNumber ;}?>"required>
                 </div>
-                <div class="row d-flex justify-content-center align-items-center">
-                    <div class="col-md-6 col-md-offset-3">
-                        <input type="submit" class="btn btn-primary" name='<?php if(isset($fonction)){echo $fonction ; }?>' value="<?php if(isset($fonction)){echo $fonction ; }?> le livre">
-                          <input type="hidden" class='form-control' id="book_id" name="book_id" value="<?php if(isset($id)){ echo $id ;}?>" required>
-                    </div>
+
+                <p class="text-danger text-center">
+                    <?php if(isset($message)){ echo ($message) ; } ?>
+                </p>
+                <div class="d-grid">
+                    <input type="submit" class="btn btn-primary btn-lg" name="<?php if(isset($fonction)){echo $fonction ; }?>" value="<?php if(isset($fonction)){echo $fonction ; }?> le livre">
+                    <input type="hidden" name="book_id" value="<?php if(isset($id)){ echo $id ;}?>">
                 </div>
             </form>
         </div>
