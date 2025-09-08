@@ -25,6 +25,13 @@
         require_once('views/user/connexion.php') ; 
     }
 
+    function logout(){
+        $_SESSION = [];
+        session_destroy();
+        header('Location:/Medianeth/User/login');
+        exit();
+    }
+
     function signin(){
         try{
             if(isset($_POST['inscription'])){

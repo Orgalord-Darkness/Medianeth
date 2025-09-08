@@ -1,16 +1,8 @@
-<!-- 
-<div class="row  slide" style ="position : sticky ; margin-bottom : 5% ; z-index:1000 ;background-color: #98DDFF; height:10% ; width : 100% ;box-shadow: 0 0 20px 2px rgb(0,0,10)" >
-    <div class="col-4 ">
-        
-    </div>
-    <div class="col-4 my-auto" style="width : 33% ">
-        <h4 class="text-center header_text ">Medianeth</h4>
-    </div>
-    <div class="col-1"></div>
-</div> -->
 <button class="btn btn-primary button-fixed" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" id='colorChangeButton' title="menu">
   <i class="fa-solid fa-bars"></i>
 </button>
+<?php if(isset($_SESSION['user_id'])): ?>
+
 
 <script>
 const button = document.getElementById('colorChangeButton');
@@ -68,6 +60,27 @@ setInterval(toggleColor, 500);
             </a>
         </li>
         <li>
+            <a href="/Medianeth/User/logout" class="nav-link link-dark" title="statistiques des heures">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Déconnexion
+            </a>
+        </li>
+        </ul>
+        <hr>
+  </div>
+</div>
+<?php else: 
+?>
+
+<div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="staticBackdropLabel"><i class="fa-solid fa-bars"></i></h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+        <li>
             <a href="/Medianeth/User/login" class="nav-link link-dark" title="statistiques des heures">
                 <i class="fa-solid fa-person"></i>
                 Connexion
@@ -83,3 +96,4 @@ setInterval(toggleColor, 500);
         <hr>
   </div>
 </div>
+<?php endif;?>

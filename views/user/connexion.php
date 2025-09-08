@@ -4,7 +4,7 @@
             <h2 class="panel-title text-center">Connexion</h2>
         </div>
         <div class="panel-body text-center ">
-            <form action="login" method="post">
+            <form action="/Medianeth/User/login" method="post">
                 <div class="row d-flex justify-content-center align-items-center">
                     <div class="col-md-6 col-md-offset-3">
                         <div class="form-group">
