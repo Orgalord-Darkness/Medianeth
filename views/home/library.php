@@ -100,7 +100,13 @@
                 <?php 
                 if(isset($media)):
                     foreach($media as $row): 
-                        $dispo = $row['disponibility'] ? 'Disponible' : 'Indisponible';
+                        if($row['disponibility'] == true){
+                            $dispo = "emprunter"; 
+                            $status = "Disponible";
+                        }else{
+                            $dispo = "rendre";
+                            $status = "Indisponible";
+                        }
                 ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="card h-100 shadow-sm border-0">
@@ -111,20 +117,32 @@
                             <p class="mb-1"><strong>Auteur :</strong> <?php echo $row['author']; ?></p>
                             <p class="mb-1"><strong>Disponibilité :</strong> 
                                 <span class="<?= $row['disponibility'] ? 'text-success' : 'text-danger' ?>">
-                                    <?php echo $dispo; ?>
+                                    <?php echo $status; ?>
                                 </span>
                             </p>
                             <?php 
                             if ($fields === 'book') {
                                 echo "<p class='mb-1'><strong>Nombre de pages :</strong> ".$row['pageNumber']."</p>";
+                                $idString = "book_id"; 
                             } elseif ($fields === 'movie') {
                                 echo "<p class='mb-1'><strong>Durée du film :</strong> ".$row['duration']."h</p>";
                                 echo "<p class='mb-1'><strong>Genre :</strong> ".$row['genre']."</p>";
+                                $idString = "movie_id"; 
                             } elseif ($fields === 'album') {
                                 echo "<p class='mb-1'><strong>Nombre de chansons :</strong> ".$row['songNumber']."</p>";
                                 echo "<p class='mb-1'><strong>Éditeur :</strong> ".$row['editor']."</p>";
+                                $idString = "album_id"; 
                             }
                             ?>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex align-item-center justify-content-center">
+                                <form action='/Medianeth/Home/<?php echo $dispo; ?>' method="post">
+                                    <input type="hidden" name="id" value="<?php echo $row[$idString]; ?>">
+                                    <input type="hidden" name="type" value="<?php echo $fields; ?>">
+                                    <input class = "btn btn-primary "type="submit" name="<?php echo $dispo; ?>" value="<?php echo $dispo; ?>"/>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

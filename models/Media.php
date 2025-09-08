@@ -39,15 +39,12 @@ class Media {
     /**
      * Méthode pour rendre un média et le mettre à disponibilité true 
      */
-    public function rendre(){
-        $this->disponible = true; 
+    public static function rendre($id){
     }
 
     /**
      * Méthode pour emprunter un média et le mettre à disponibilité false 
      */
-    public function emprunter(){
-        $this->disponible = false; 
-        return $this->disponible ; 
+    public static function emprunter($id){ 
     }
 }

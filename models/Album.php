@@ -85,5 +85,29 @@
         }
     }
 
+    public static function rendre($id){
+        try{
+            $connexion = connexionBdd(); 
+            $requete = $connexion->prepare("UPDATE `album` SET `disponibility` = 1 WHERE `album_id` = :id"); 
+            $requete->bindParam(':id',$id,PDO::PARAM_INT); 
+            $requete->execute() ;
+
+        }catch(PDOException $e){
+            echo "Erreur de suppression".$e ; 
+        }
+    }
+
+    public static function emprunter($id){
+        try{
+            $connexion = connexionBdd(); 
+            $requete = $connexion->prepare("UPDATE `album` SET `disponibility` = 0 WHERE `album_id` = :id"); 
+            $requete->bindParam(':id',$id,PDO::PARAM_INT); 
+            $requete->execute() ;
+
+        }catch(PDOException $e){
+            echo "Erreur de suppression".$e ; 
+        }
+    }
+
 
     }

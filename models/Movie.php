@@ -110,5 +110,29 @@
         }
     }
 
+    public static function rendre($id){
+        try{
+            $connexion = connexionBdd(); 
+            $requete = $connexion->prepare("UPDATE `movie` SET `disponibility` = 1 WHERE `movie_id` = :id"); 
+            $requete->bindParam(':id',$id,PDO::PARAM_INT); 
+            $requete->execute() ;
+
+        }catch(PDOException $e){
+            echo "Erreur de suppression".$e ; 
+        }
+    }
+
+    public static function emprunter($id){
+        try{
+            $connexion = connexionBdd(); 
+            $requete = $connexion->prepare("UPDATE `movie` SET `disponibility` = 0 WHERE `movie_id` = :id"); 
+            $requete->bindParam(':id',$id,PDO::PARAM_INT); 
+            $requete->execute() ;
+
+        }catch(PDOException $e){
+            echo "Erreur de suppression".$e ; 
+        }
+    }
+
 
     }

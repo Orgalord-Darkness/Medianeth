@@ -78,5 +78,29 @@ class Book extends Media{
         }
     }
 
+    public static function rendre($id){
+        try{
+            $connexion = connexionBdd(); 
+            $requete = $connexion->prepare("UPDATE `book` SET `disponibility` = 1 WHERE `book_id` = :id"); 
+            $requete->bindParam(':id',$id,PDO::PARAM_INT); 
+            $requete->execute() ;
 
+        }catch(PDOException $e){
+            echo "Erreur de suppression".$e ; 
+        }
+    }
+
+    public static function emprunter($id){
+        try{
+            var_dump($id);
+            $connexion = connexionBdd(); 
+            $requete = $connexion->prepare("UPDATE `book` SET `disponibility` = 0 WHERE `book_id` = :id"); 
+            $requete->bindParam(':id',$id,PDO::PARAM_INT); 
+            $requete->execute() ;
+
+        }catch(PDOException $e){
+            echo "Erreur de suppression".$e ; 
+        }
+    }
+    
 }
