@@ -32,6 +32,19 @@
                     <input type="number" class="form-control"name="pageNumber" value="<?php if(isset($pageNumber)){ echo $pageNumber ;}?>"required>
                 </div>
 
+                 <div class="input-group mb-3">
+                    <span class="input-group-text" id="label-illustration">Illustration</span>
+                    <select class="form-select" id="illustration_id" name="illustration_id" required>
+                        <option value="">-- Choisir une illustration --</option>
+                        <?php foreach($illustrations as $row): ?>
+                        <option value="<?= $row['illustration_id']; ?>"
+                            <?= (isset($illustration_id) && $illustration_id == $row['illustration_id']) ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($row['name']); ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
                 <p class="text-danger text-center">
                     <?php if(isset($message)){ echo ($message) ; } ?>
                 </p>

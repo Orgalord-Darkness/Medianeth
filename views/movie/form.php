@@ -1,7 +1,7 @@
 <div class="container my-5">
     <div class="card shadow border-0">
         <div class="card-header bg-primary text-white text-center">
-            <h2 class="mb-0"><?php if(isset($fonction)){ echo $fonction ; }?> un livre</h2>
+            <h2 class="mb-0"><?php if(isset($fonction)){ echo $fonction ; }?> un film</h2>
         </div>
         <div class="card-body">
             <form method="post" class="p-3">
@@ -63,12 +63,25 @@
                     </select>
                 </div>
 
+                 <div class="input-group mb-3">
+                    <span class="input-group-text" id="label-illustration">Illustration</span>
+                    <select class="form-select" id="illustration_id" name="illustration_id" required>
+                        <option value="">-- Choisir une illustration --</option>
+                        <?php foreach($illustrations as $row): ?>
+                        <option value="<?= $row['illustration_id']; ?>"
+                            <?= (isset($illustration_id) && $illustration_id == $row['illustration_id']) ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($row['name']); ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
                 <p class="text-danger text-center">
                     <?php if(isset($message)){ echo ($message) ; } ?>
                 </p>
                 <!-- Bouton -->
                 <div class="d-grid">
-                    <input type="submit" class="btn btn-primary btn-lg" name="<?php if(isset($fonction)){echo $fonction ; }?>" value="<?php if(isset($fonction)){echo $fonction ; }?> le livre">
+                    <input type="submit" class="btn btn-primary btn-lg" name="<?php if(isset($fonction)){echo $fonction ; }?>" value="<?php if(isset($fonction)){echo $fonction ; }?> le film">
                     <input type="hidden" name="movie_id" value="<?php if(isset($id)){ echo $id ;}?>">
                 </div>
             </form>

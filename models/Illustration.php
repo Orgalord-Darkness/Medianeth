@@ -42,6 +42,20 @@
             return $illustration ; 
         }
 
+        public static function GetMediaByIllustrationId($id){
+            $connexion = connexionBdd() ; 
+            $requete = $connexion->prepare("SELECT book.book_id, movie.movie_id, album.album_id 
+                FROM illustration 
+                LEFT JOIN book ON illustration.illustration_id = book.illustration_id 
+                LEFT JOIN movie ON illustration.illustration_id = movie.illustration_id 
+                LEFT JOIN album ON illustration.illustration_id = album.illustration_id 
+                WHERE illustration.illustration_id = :id") ; 
+            $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
+            $requete->execute() ; 
+            $illustration = $requete->fetch(PDO::FETCH_ASSOC) ; 
+            return $illustration ; 
+        }
+
         public static function create($name, $link){
             try{
                 $connexion = connexionBdd() ; 

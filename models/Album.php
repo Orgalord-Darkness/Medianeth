@@ -3,10 +3,12 @@
 
         private int $songNumber; 
         private string $editor ; 
+        private Illustration $illustration; 
 
-        public function __construct($titre, $auteur, $disponible,$songNumber, $editor){
+        public function __construct($titre, $auteur, $disponible,$songNumber, $editor,$illustration){
             $this->songNumber = $songNumber; 
             $this->editor = $editor; 
+            $this->illustration = $illustration; 
             parent::__construct($titre, $auteur, $disponible);
         }
 
@@ -26,9 +28,17 @@
             $this->editor = $editor; 
         }
 
+        public function getIllustration(){
+            return $this->illustration; 
+        }
+
+        public function setIllustration(string $illustration){
+            $this->illustration = $illustration; 
+        }
+
         public static function GetAlbum(){ 
         $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT album_id,title,author,disponibility,songNumber,editor FROM album") ; 
+        $requete = $connexion->prepare("SELECT album_id,title,author,disponibility,songNumber,editor, link FROM album INNER JOIN illustration ON album.illustration_id = illustration.illustration_id") ; 
         $requete->execute() ; 
         $albums = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
         return $albums ; 
@@ -43,31 +53,33 @@
         return $album ; 
     }
 
-    public static function create($titre, $auteur, $disponible,$songNumber, $editor){
+    public static function create($titre, $auteur, $disponible,$songNumber, $editor,$illustration_id){
         try{
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("INSERT INTO `album`(album_id, title, author, disponibility,songNumber,editor, created_at,updated_at) VALUES(Null, :title, :author, :disponibility, :songNumber, :editor, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
+            $requete = $connexion->prepare("INSERT INTO `album`(album_id, title, author, disponibility,songNumber,editor,illustration_id created_at,updated_at) VALUES(Null, :title, :author, :disponibility, :songNumber, :editor,:illustration_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
             $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
             $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
             $requete->bindParam(':disponibility', $disponible, PDO::PARAM_INT) ; 
             $requete->bindParam(':songNumber', $songNumber, PDO::PARAM_INT) ;
             $requete->bindParam(':editor', $editor, PDO::PARAM_STR) ; 
+            $requete->bindParam(':illustration_id', $illustration_id, PDO::PARAM_INT) ;
             $requete->execute() ; 
         }catch(PDOException $e){
             echo "erreur de create ".$e ; 
         }
     }
 
-    public static function update($id, $titre, $auteur, $disponible,$songNumber, $editor){
+    public static function update($id, $titre, $auteur, $disponible,$songNumber, $editor,$illustration_id){
         try{
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("UPDATE `album` SET `title`=:title, `author`=:author, `disponibility`=:disponibility, `songNumber`=:songNumber,`editor`=:editor, `updated_at`=CURRENT_TIMESTAMP WHERE album_id = :id;") ; 
+            $requete = $connexion->prepare("UPDATE `album` SET `title`=:title, `author`=:author, `disponibility`=:disponibility, `songNumber`=:songNumber,`editor`=:editor, `illustration_id`= :illustration_id,`updated_at`=CURRENT_TIMESTAMP WHERE album_id = :id;") ; 
             $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
             $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
             $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
             $requete->bindParam(':disponibility', $disponible, PDO::PARAM_INT) ; 
             $requete->bindParam(':songNumber', $songNumber, PDO::PARAM_INT) ;
-            $requete->bindParam(':editor', $editor, PDO::PARAM_STR) ; 
+            $requete->bindParam(':editor', $editor, PDO::PARAM_STR) ;
+            $requete->bindParam(':illustration_id', $illustration_id, PDO::PARAM_INT) ; 
             $requete->execute() ; 
         }catch(PDOException $e){
             echo "erreur de modification ".$e ; 

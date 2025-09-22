@@ -6,16 +6,21 @@
 
 	function addAlbum(){
 		$fonction = "Ajouter";
-		if(isset($_POST['title']) && isset($_POST['author'])&& isset($_POST['disponibility'])&& isset($_POST['songNumber']) && isset($_POST['editor'])){
+		$illustrations = Illustration::getIllustration();
+		if(isset($_POST['title']) && isset($_POST['author'])&& isset($_POST['disponibility'])&& isset($_POST['songNumber']) && isset($_POST['editor'])&& isset($_POST['illustration_id'])){
 			$titre = $_POST['title'] ; 
 			$auteur = $_POST['author'] ; 
             $disponible = $_POST['disponibility'];
             $songNumber = $_POST['songNumber'];
             $editor = $_POST['editor'];
+			$illustration_id = $_POST['illustration_id'];
 
-			if(!empty($titre)&&!empty($auteur) && !empty($disponible) && !empty($songNumber)&& !empty($editor)){
-				$album = new Album($titre, $auteur, $disponible, $songNumber,$editor); 
-				$album = Album::create($titre, $auteur, $disponible,$songNumber,$editor) ; 
+			$get_illustration = Illustration::GetIllustrationById($illustration_id);
+			$illustration = new Illustration($get_illustration['name'],$get_illustration['link']);
+
+			if(!empty($titre)&&!empty($auteur) && !empty($disponible) && !empty($songNumber)&& !empty($editor) && !empty($illustration)){
+				$album = new Album($titre, $auteur, $disponible, $songNumber,$editor,$illustration); 
+				$album = Album::create($titre, $auteur, $disponible,$songNumber,$editor,$illustration_id) ; 
 				echo '<script>window.location.href = "/Medianeth/Album/adminAlbum/";</script>';
 			}else{
 				$message ='Champ vide';
@@ -26,6 +31,7 @@
 
 	function updateAlbum($id){
 		$fonction = "Modifer";
+		$illustrations = Illustration::getIllustration();
 		$album = Album::getAlbumById($id);
 		$title = $album['title'] ; 
 		$author = $album['author'] ; 
@@ -36,15 +42,16 @@
 			$id = $_POST['album_id'] ; 
 			$album = Album::GetAlbumById($id) ;  
 			if(!empty($album)){
-				if(isset($_POST['title']) && isset($_POST['author'])&& isset($_POST['disponibility'])&& isset($_POST['songNumber']) && isset($_POST['editor'])){
+				if(isset($_POST['title']) && isset($_POST['author'])&& isset($_POST['disponibility'])&& isset($_POST['songNumber']) && isset($_POST['editor'])&& isset($_POST['illustration_id'])){
                     $title = $_POST['title'] ; 
 					$author = $_POST['author'] ; 
 					$disponible = $_POST['disponibility'];
 					$songNumber = $_POST['songNumber'];
 					$editor = $_POST['editor'];
-                            
-					if(!empty($title)&&!empty($author) && !empty($disponible) && !empty($songNumber)&& !empty($editor)){
-						$album = Album::update($id, $title, $author, $disponible,$songNumber,$editor)  ;  
+					$illustration_id = $_POST['illustration_id'];
+
+					if(!empty($title)&&!empty($author) && !empty($disponible) && !empty($songNumber)&& !empty($editor) && !empty($illustration_id)){
+						$album = Album::update($id, $title, $author, $disponible,$songNumber,$editor,$illustration_id)  ;  
 						echo '<script>window.location.href = "/Medianeth/Album/adminAlbum/";</script>';
 					}else{
 						$message="Champ vide" ; 

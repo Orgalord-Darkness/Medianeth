@@ -15,6 +15,9 @@
                             <h5 class="mb-0 text-truncate"><?php echo $row["title"];?></h5>
                         </div>
                         <div class="card-body">
+                            <img src="<?= htmlspecialchars($row['link'] ?? ''); ?>" 
+                                alt="<?= htmlspecialchars($row['name'] ?? ''); ?>" 
+                                class="img-fluid mb-3" style="max-height:200px; object-fit:cover;">
                             <p class="mb-1"><strong>Auteur :</strong> <?php echo $row['author'];?></p>
                             <p class="mb-1">
                                 <strong>Disponibilité :</strong>
@@ -28,11 +31,11 @@
                             <p class="mb-1"><strong>Editeur :</strong> <?php echo $row['editor'];?></p>
                         </div>
                         <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
-                                <a href="/Medianeth/Album/updateAlbum/<?php echo $row['album_id'];?>">
-                                    <button type="submit" class="btn btn-sm btn-outline-primary">
-                                        <i class="fa fa-pen"></i> Modifier
-                                    </button>
-                                </a>
+                            <a href="/Medianeth/Album/updateAlbum/<?php echo $row['album_id'];?>">
+                                <button type="submit" class="btn btn-sm btn-outline-primary">
+                                    <i class="fa fa-pen"></i> Modifier
+                                </button>
+                            </a>
                             <form action="/Medianeth/Album/deleteAlbum" method="post" class="d-inline">
                                 <input type="hidden" name="album_id" value="<?= $row['album_id'] ?>">
                                 <button type="submit" class="btn btn-sm btn-outline-danger">

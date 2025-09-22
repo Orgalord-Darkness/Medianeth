@@ -61,12 +61,17 @@
 			if(!empty($illustration)){
 				if(isset($_POST['ask'])){ 
 					if($_POST['ask'] == 'Supprimer'){ 
-						$illustration = Illustration::delete($id) ;  
-						echo '<script>window.location.href = "/Medianeth/Illustration/adminIllustration";</script>'; 
+						$media = Illustration::GetMediaByIllustrationId($id);
+						if(empty($media)){
+							$illustration = Illustration::delete($id) ;  
+							echo '<script>window.location.href = "/Medianeth/Illustration/adminIllustration";</script>';
+						}else{
+							$message = "Impossible de supprimer l'illustration car utiliser par des medias";
+						} 
 					}
 				}
 			}else{ 
-				echo "suppression annuler" ; 
+				$message = "suppression annuler" ; 
 			}	
 		}
 		require_once('views/illustration/delete.php');

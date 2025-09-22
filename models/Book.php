@@ -23,7 +23,7 @@ class Book extends Media{
 
     public static function GetBook(){ 
         $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT book_id, title,author,disponibility,pageNumber FROM book") ; 
+        $requete = $connexion->prepare("SELECT book_id, title,author,disponibility,pageNumber,illustration.link FROM book INNER JOIN illustration ON book.illustration_id = illustration.illustration_id") ; 
         $requete->execute() ; 
         $books = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
         return $books ; 
@@ -38,29 +38,31 @@ class Book extends Media{
         return $book ; 
     }
 
-    public static function create($titre, $auteur, $disponible,$pageNumber){
+    public static function create($titre, $auteur, $disponible,$pageNumber,$illustration_id){
         try{
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("INSERT INTO `book`(book_id, title, author, disponibility,pageNumber,created_at,updated_at) VALUES(Null, :title, :author, :disponibility, :pageNumber, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
+            $requete = $connexion->prepare("INSERT INTO `book`(book_id, title, author, disponibility,pageNumber,illustration_id,created_at,updated_at) VALUES(Null, :title, :author, :disponibility, :pageNumber, :illustration_id ,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
             $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
             $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
             $requete->bindParam(':disponibility', $disponible, PDO::PARAM_INT) ; 
             $requete->bindParam(':pageNumber', $pageNumber, PDO::PARAM_INT) ; 
+            $requete->bindParam(':illustration_id', $illustration_id, PDO::PARAM_INT) ; 
             $requete->execute() ; 
         }catch(PDOException $e){
             echo "erreur de create ".$e ; 
         }
     }
 
-    public static function update($id, $titre, $auteur, $disponible,$pageNumber){
+    public static function update($id, $titre, $auteur, $disponible,$pageNumber,$illustration_id){
         try{
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("UPDATE `book` SET `title`=:title, `author`=:author, `disponibility`=:disponibility, `pageNumber`=:pageNumber, `updated_at`=CURRENT_TIMESTAMP WHERE `book_id`=:id;") ; 
+            $requete = $connexion->prepare("UPDATE `book` SET `title`=:title, `author`=:author, `disponibility`=:disponibility, `pageNumber`=:pageNumber, `updated_at`=CURRENT_TIMESTAMP, `illustration_id`=:illustration_id WHERE `book_id`=:id;") ; 
             $requete->bindParam(':id', $id, PDO::PARAM_INT) ;
             $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
             $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
             $requete->bindParam(':disponibility', $disponible, PDO::PARAM_INT) ; 
             $requete->bindParam(':pageNumber', $pageNumber, PDO::PARAM_INT) ; 
+            $requete->bindParam(':illustration_id', $illustration_id, PDO::PARAM_INT) ; 
             $requete->execute() ; 
         }catch(PDOException $e){
             echo "erreur de modification ".$e ; 

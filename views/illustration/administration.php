@@ -36,7 +36,7 @@
                             </a>
                             <form action="/Medianeth/Illustration/deleteIllustration" method="post" class="d-inline">
                                 <input type="hidden" name="illustration_id" value="<?= $row['illustration_id']; ?>">
-                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer cette illustration ?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
                                     <i class="fa fa-trash"></i> Supprimer
                                 </button>
                             </form>
