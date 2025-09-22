@@ -60,6 +60,18 @@ setInterval(toggleColor, 500);
             </a>
         </li>
         <li>
+            <a href="/Medianeth/Song/adminSong" class="nav-link link-dark" title="statistiques des heures">
+                <i class="fa-solid fa-music"></i>
+                Song
+            </a>
+        </li>
+        <li>
+            <a href="/Medianeth/Illustration/adminIllustration" class="nav-link link-dark" title="statistiques des heures">
+                <i class="fa-solid fa-image"></i>
+                Illustration
+            </a>
+        </li>
+        <li>
             <a href="/Medianeth/User/logout" class="nav-link link-dark" title="statistiques des heures">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Déconnexion
