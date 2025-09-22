@@ -58,17 +58,20 @@
 	function deleteAlbum(){
 		if(isset($_POST['album_id'])){
 			$id = $_POST['album_id'] ; 
-			$movie = Album::GetAlbumById($id) ;  
-			if(!empty($movie)){
+			$album = Album::GetAlbumById($id) ;  
+			if(!empty($album)){
 				if(isset($_POST['ask'])){ 
-					$album = Album::delete($id) ;  
-					echo '<script>window.location.href = "/Medianeth/Album/adminAlbum/";</script>';
+					$song = Song::GetSongByAlbumId($id);
+					if(empty($song)){
+						$album = Album::delete($id) ;  
+						echo '<script>window.location.href = "/Medianeth/Album/adminAlbum/";</script>';
+					}else{
+						$message = "Impossible de supprimer, cette album contient des chansons non supprimé";
+					}
 				}
 			}else{ 
 				$message= "suppression annuler" ; 
 			}	
-		}else{
-			$message="Test";
 		}
 		require_once('views/album/delete.php');
     }

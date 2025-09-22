@@ -9,7 +9,15 @@
     <div class="container my-4">
         <div class="row g-4">
             <?php foreach($songs as $row): 
-                    $album = $albums[$row['album_id']];
+                    if(count($albums) < 2){
+                        $album = $albums[0];
+                    }elseif(count($albums) > 1){
+                        foreach($albums as $tab){
+                            if($tab['album_id'] === $row['album_id']){
+                                $album = $tab;    
+                            }
+                        }
+                    }
                 ?>
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card h-100 shadow-lg border-1 rounded-3">

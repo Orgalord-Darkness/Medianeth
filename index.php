@@ -7,6 +7,8 @@
     include_once('models/Movie.php'); 
     include_once('models/Album.php'); 
     include_once('models/User.php');
+    include_once('models/Song.php');
+    include_once('models/Illustration.php');
     include_once('views/menu.php') ; 
 
     if(isset($_SESSION['user_id'])){

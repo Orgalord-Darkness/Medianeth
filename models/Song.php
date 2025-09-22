@@ -30,6 +30,15 @@ class Song {
         return $song ; 
     }
 
+    public static function GetSongByAlbumId($id){
+        $connexion = connexionBdd() ; 
+        $requete = $connexion->prepare("SELECT song.song_id, song.title,song.album_id,song.note,song.duration FROM song INNER JOIN album ON song.album_id = album.album_id WHERE song.album_id = :id") ; 
+        $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
+        $requete->execute() ; 
+        $song = $requete->fetch(PDO::FETCH_ASSOC) ; 
+        return $song ; 
+    }
+
     public static function create($title, $note,$duration, $album_id  ){
         try{
             $connexion = connexionBdd() ; 
