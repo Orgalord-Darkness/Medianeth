@@ -1,32 +1,8 @@
-<button class="btn btn-primary button-fixed" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" id='colorChangeButton' title="menu">
+<button class="btn btn-primary button-fixed" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" title="menu">
   <i class="fa-solid fa-bars"></i>
 </button>
 <?php if(isset($_SESSION['user_id'])): ?>
 
-
-<script>
-const button = document.getElementById('colorChangeButton');
-
-// Variable pour suivre l'état de la couleur actuelle
-let isBlue = true;
-
-// Fonction pour changer la couleur
-function toggleColor() {
-  if (isBlue) {
-    button.style.backgroundColor = '#007bff';
-    button.style.color = "#00000" 
-  } else {
-    button.style.backgroundColor = '#FFF666';
-    button.style.color = "#00000"
-  }
-  
-  // Inverse l'état de la couleur
-  isBlue = !isBlue;
-}
-
-// Appelle la fonction toggleColor toutes les 2 secondes (2000 millisecondes)
-setInterval(toggleColor, 500);
-</script>
 <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="staticBackdropLabel"><i class="fa-solid fa-bars"></i></h5>
@@ -35,6 +11,9 @@ setInterval(toggleColor, 500);
   <div class="offcanvas-body">
     <hr>
         <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item">
+            <h1><?php if(isset($_SESSION['login'])){echo $_SESSION['login'] ; }?></h1>
+          </li>
           <li class="nav-item">
             <a href="/Medianeth/Home/library/" class="nav-link link-dark" title="vue d'ensembe">
             <i class="fa-solid fa-eye"></i>

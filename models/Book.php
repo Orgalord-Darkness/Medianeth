@@ -29,6 +29,28 @@ class Book extends Media{
         return $books ; 
     }
 
+    public static function GetBookByOrder($order){ 
+       try{
+            $connexion = connexionBdd(); 
+            switch($order):
+                case 'ASC' : 
+                     $requete = $connexion->prepare("SELECT book_id, title,author,disponibility,pageNumber,illustration.link FROM book INNER JOIN illustration ON book.illustration_id = illustration.illustration_id ORDER BY title ASC"); 
+                     break; 
+                case 'DESC': 
+                    $requete = $connexion->prepare("SELECT book_id, title,author,disponibility,pageNumber,illustration.link FROM book INNER JOIN illustration ON book.illustration_id = illustration.illustration_id ORDER BY title DESC"); 
+                     break; 
+                default : 
+                 $requete = $connexion->prepare("SELECT book_id, title,author,disponibility,pageNumber,illustration.link FROM book INNER JOIN illustration ON book.illustration_id = illustration.illustration_id"); 
+
+            endswitch;
+            $requete->execute() ;
+            $books = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+            return $books ; 
+        }catch(PDOException $e){
+            echo "Erreur de suppression".$e ; 
+        }
+    }
+
     public static function GetBookById($id){
         $connexion = connexionBdd() ; 
         $requete = $connexion->prepare("SELECT book_id, title,author,disponibility,pageNumber FROM book WHERE book_id = :id") ; 

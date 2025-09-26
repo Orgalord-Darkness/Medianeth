@@ -136,5 +136,29 @@
         }
     }
 
+    public static function GetMovieByOrder($order){
+        try{
+            $connexion = connexionBdd(); 
+            switch($order):
+                case 'ASC' : 
+                     $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre,illustration.link FROM movie INNER JOIN illustration ON movie.illustration_id = illustration.illustration_id ORDER BY title ASC"); 
+                     break; 
+                case 'DESC': 
+                    $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre,illustration.link FROM movie INNER JOIN illustration ON movie.illustration_id = illustration.illustration_id ORDER BY title DESC"); 
+                     break; 
+                default : 
+                 $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre,illustration.link FROM movie INNER JOIN illustration ON movie.illustration_id = illustration.illustration_id"); 
+
+            endswitch;
+
+            $requete->execute() ;
+            
+            $movies = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+            return $movies ; 
+        }catch(PDOException $e){
+            echo "Erreur de suppression".$e ; 
+        }
+    }
+
 
     }

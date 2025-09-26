@@ -27,10 +27,10 @@
                             <label for="password">Mot de passe </label>
                             <input type="password" class='form-control' id="password" name="password" required>
                         </div>
-                        <p><?php if(isset($message)){ echo ($message) ; } ?><p>
+                        <?php if(isset($message)){ echo ($message) ; } ?>
                     </div>
                 </div>
-                <div class="row d-flex justify-content-center align-items-center">
+                <div class="mt-10 row d-flex justify-content-center align-items-center">
                     <div class="col-md-6 col-md-offset-3">
                         <input type="submit" class="btn btn-primary" name="inscription" value="S'inscrire">
                     </div>

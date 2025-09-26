@@ -1,71 +1,3 @@
-<?php 
-
-    function leven($tab, $recherche){
-        $resultats = [];
-        $shortest = 2; 
-        $i = 0; 
-        foreach($tab as $item){
-            if(str_contains(strtolower($item["title"]), strtolower($recherche))){
-                $resultats[$i] = $item; 
-                $i += 1; 
-            }else{
-                $valeur = $item["title"]; 
-                $mots = explode(" ",$valeur); 
-                foreach($mots as $mot){
-                    $lev = levenshtein(strtolower($mot), strtolower($recherche));
-                    if($lev == 0 ){
-                        $resultats[$i] = $item; 
-                        $i += 1; 
-                    }
-                    if($lev < $shortest || $shortest < 0){
-                        $resultats[$i] = $item ;
-                        $i += 1; 
-                        $shortest = $lev; 
-                    }elseif($lev == $shortest){
-                        $resultats[$i] = $item; 
-                    }
-                }
-            }
-        }
-        return $resultats; 
-    }
-    
-    $count = 0; 
-    $media  = $books; 
-    $fields = "book";
-    if(isset($_POST['media']) && !empty($_POST['media'])){
-        $filtre = $_POST['media'];
-        switch($filtre) :
-            case 'Book': 
-                $count = count($books); 
-                $media  = $books; 
-                $fields = "book";
-                break; 
-            case 'Movie': 
-                $count = count($movies); 
-                $media = $movies; 
-                $fields = "movie";
-                break ; 
-            
-            case 'Album': 
-                $count = count($albums); 
-                $media = $albums; 
-                $fields = "album";
-                break; 
-            
-            default : 
-                $count = count($books); 
-                $media  = $books; 
-                $fields = "book";
-        endswitch ; 
-        if(isset($_POST['search']) && !empty($_POST['search'])){
-            $search = $_POST['search'];
-            $recherches = leven($media, $search); 
-            $media = $recherches; 
-        }
-    }
-?>
-
 <html>
     <body>
         <div class="container my-4">
@@ -74,16 +6,32 @@
                     <form method="POST">
                         <div class="row">
                             <div class="col">
-                                <label for="search" class="form-label visually-hidden">Rechercher</label>
+                                <label for="search" class="form-label">Rechercher</label>
                                 <input type="text" name="search" value="<?php if(isset($search)){ echo $search ;}?>" class="form-control form-control-lg" placeholder="Rechercher un titre...">
                             </div>
                              <div class="col mb-0">
-                                <label for="filtre" class="form-label visually-hidden">Media</label>
+                                <label for="media" class="form-label">Media</label>
                                 <select name="media" class="form-select form-select-lg">
-                                    <option value="<?php if(isset($filre)){ echo $filtre; }?>"><?php if(isset($filtre)){ echo $filtre;}else{ echo "Choisir un media" ; } ?></option>
-                                    <option value="Book">Livre</option>
-                                    <option value="Movie">Film</option>
-                                    <option value="Album">Album</option>
+                                    <?php if(isset($default)):?>
+                                        <option value="<?= $default ?>" selected>
+                                            <?= $default === 'Book' ? 'Livre' : ($default === 'Movie' ? 'Film' : 'Album') ?>
+                                        </option>
+                                        <?php if ($default !== 'Book'): ?><option value="Book">Livre</option><?php endif; ?>
+                                        <?php if ($default !== 'Movie'): ?><option value="Movie">Film</option><?php endif; ?>
+                                        <?php if ($default !== 'Album'): ?><option value="Album">Album</option><?php endif; ?>
+                                    <?php else: ?>
+                                        <option value="Book">Livre</option>
+                                        <option value="Movie">Film</option>
+                                        <option value="Album">Album</option>
+                                    <?php endif;?>
+                                </select>
+                            </div>
+                            <div class="col mb-0">
+                                <label for="order" class="form-label">Trier le titre par ordre</label>
+                                <select name="order" class="form-select form-select-lg">
+                                    <option value="null">Choisir l'ordre</option>
+                                    <option value="ASC">A - Z</option>
+                                    <option value="DESC">Z - A</option>
                                 </select>
                             </div>
                             <div class="col">

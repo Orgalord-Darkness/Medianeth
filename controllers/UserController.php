@@ -33,29 +33,33 @@
     }
 
     function signin(){
+        
         try{
             if(isset($_POST['inscription'])){
-                $email = $_POST['email'];
-                $login = $_POST['login'];
-                $password = $_POST['password'];
-                
-                $existingUser = User::getByEmail($email);
-                if($existingUser){
-                    $mailToken = "L'adresse email est déjà utilisé" ; 
-                }else{
-                    $pattern = '/^(?!.*' . preg_quote($login, '/') . ')(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/';
+                if(isset($_POST['email']) && isset($_POST['login']) && isset($_POST['password'])){
+                    $email = $_POST['email'];
+                    $login = $_POST['login'];
+                    $password = $_POST['password'];
+                    if(!empty($email) && !empty($login) && !empty($password)){
+                        $existingUser = User::getByEmail($email);
+                        if($existingUser){
+                            $mailToken = "L'adresse email est déjà utilisé" ; 
+                            $message="<p class='text-danger'>l'email est déjà utilisé</p>";
+                        }else{
+                            $pattern = '/^(?!.*' . preg_quote($login, '/') . ')(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/';
 
-                    if (preg_match($pattern, $password)) {
-                        echo "Mot de passe valide";
-                        $user = User::create($login, $email, $password);
-                    } else {
-                        echo "Le mot de passe ne respecte pas la politique de sécurité";
-                        $user = false; 
-                    }
-                    if($user){
-                        $message = 'Inscription réussi';
+                            if (preg_match($pattern, $password)) {
+                                $user = User::create($login, $email, $password);
+                            } else {
+                                $message = "<p class='text-danger'>Le mot de passe doit avoir 8 caractères minimum, des caractères spéciaux et ne pas contenir le login</p>"; 
+                                $user = false; 
+                            }
+                            if($user){
+                                $message = "<p class='text-success'>Inscription réussi</p>";
+                            }
+                        }
                     }else{
-                        $message = "Erreur lors de l'inscription";
+                        $message = "<p class='text-danger'>Remplir tous les champs</p>"; 
                     }
                 }
             }
