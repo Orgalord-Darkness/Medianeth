@@ -1,4 +1,11 @@
 <?php
+/**
+ * Classe enfant des médias albums 
+ * Attributs en plus : 
+ * @param string name pour le nom de l'illustration
+ * @param string $link pour le lien de l'image en ligne 
+ * Méthodes SQL pour intéragir avec la table illustration de la bdd
+ */
     class Illustration{
 
         private string $name; 

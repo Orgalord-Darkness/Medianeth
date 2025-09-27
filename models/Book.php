@@ -1,4 +1,10 @@
 <?php 
+/**
+* Classe enfant des médias livres 
+* Attributs en plus : 
+* @param int $pageNumber pour le nombre de pages d'un livre 
+* Méthodes SQL pour intéragir avec la table book de la bdd
+*/
 class Book extends Media{
     
     private int $pageNumber; 

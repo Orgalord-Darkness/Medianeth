@@ -95,120 +95,28 @@
 		require_once('views/home/library.php') ; 
 	}
 
-	// function library(){
-	// 	$count = 0; 
-	// 	$books = Book::GetBook();
-	// 	$movies = Movie::GetMovie();
-	// 	$albums = Album::GetAlbum();
-	// 	if(isset($_POST['order'])){
-	// 		$order = $_POST['order'];
-	// 	}else{
-	// 		$order = "ASC";
-	// 	}
-	// 	if(isset($_POST['default']) && !empty($_POST['default'])){
-	// 		$default = $_POST['default'];
-	// 		switch($default) :
-	// 			case 'Book': 
-	// 				$count = count($books); 
-	// 				if(!empty($order)){
-	// 					$media = Book::GetBookByOrder($order);
-	// 				}else{
-	// 					$media  = $books; 
-	// 				}
-	// 				$fields = "book";
-	// 				$default = "Book";
-	// 				break; 
-	// 			case 'Movie': 
-	// 				$count = count($movies); 
-	// 				if(!empty($order)){
-	// 					$media = Movie::GetMovieByOrder($order);
-	// 				}else{
-	// 					$media  = $movies; 
-	// 				}
-	// 				$fields = "movie";
-	// 				$default = "Movie";
-	// 				break ; 
-				
-	// 			case 'Album': 
-	// 				$count = count($albums); 
-	// 				if(!empty($order)){
-	// 					$media = Album::GetAlbumByOrder($order);
-	// 				}else{
-	// 					$media  = $albums; 
-	// 				}
-	// 				$fields = "album";
-	// 				$default = "Album";
-	// 				break; 
-	// 			default : 
-	// 				$count = count($books); 
-	// 				$media  = $books; 
-	// 				$fields = "book";
-	// 				$default = "Book";
-	// 		endswitch ; 
-	// 	}else{
-	// 		if(isset($_POST['media']) && !empty($_POST['media'])){
-	// 			$filtre = $_POST['media'];
-	// 			switch($filtre) :
-	// 				case 'Book': 
-	// 					$count = count($books); 
-	// 					if(!empty($order)){
-	// 						$media = Book::GetBookByOrder($order);
-	// 					}else{
-	// 						$media  = $books; 
-	// 					}
-	// 					$fields = "book";
-	// 					$default = "Book";
-	// 					break; 
-	// 				case 'Movie': 
-	// 					$count = count($movies); 
-	// 					if(!empty($order)){
-	// 						$media = Movie::GetMovieByOrder($order);
-	// 					}else{
-	// 						$media  = $movies; 
-	// 					}
-	// 					$fields = "movie";
-	// 					$default = "Movie";
-	// 					break ; 
-					
-	// 				case 'Album': 
-	// 					$count = count($albums); 
-	// 					if(!empty($order)){
-	// 						$media = Album::GetAlbumByOrder($order);
-	// 					}else{
-	// 						$media  = $albums; 
-	// 					}
-	// 					$fields = "album";
-	// 					$default = "Album";
-	// 					break; 
-	// 				default : 
-	// 					$count = count($books); 
-	// 					$media  = $books; 
-	// 					$fields = "book";
-	// 					$default = "Book";
-	// 				endswitch ; 
-	// 		}else{
-	// 			$count = count($books); 
-	// 			$media  = $books; 
-	// 			$fields = "book";
-	// 		}
-	// 	}
-	// 	if(isset($_POST['search']) && !empty($_POST['search'])){
-	// 		$search = $_POST['search'];
-	// 		$recherches = leven($media, $search); 
-	// 		$media = $recherches; 
-	// 	}
-	// 	require_once('views/home/library.php') ; 
-	// }
-
-
-
-	function trieMovie(){
-		$movies = Movie::GetMovie() ; 
-		if(isset($_POST['order']) && !empty($order)){
-			$order = $_POST['order'];
+	function showAlbum($id){
+		if(isset($id) && !empty($id)){
+			$album_id = $id; 
+			$album = Album::GetAlbumById($album_id);
+			if(!empty($album)){
+				$songs = Song::GetSongByAlbumId($album_id);
+				if(empty($songs)){
+					$message = "<p class='text-danger'>Aucune chanson dans l'album</p>";
+				}
+			}
 		}
-		require_once('views/movie/read.php');
-		
+		require_once('views/home/show_album.php');
+
+	}
+
+	function dashboard(){
+		$books = Book::getBook();
+		$movies = Movie::getMovie();
+		$albums = Album::getAlbum();
+
+		require_once('views/home/dashboard.php');
+
 	}
 
 	function rendre(){
@@ -234,10 +142,7 @@
 			}
 		}
 
-		$books = Book::GetBook();
-		$movies = Movie::GetMovie();
-		$albums = Album::GetAlbum();
-		require_once('views/home/library.php');
+		echo '<script>window.location.href = "/Medianeth/Home/library";</script>';
 	}
 
 	function emprunter(){
@@ -262,8 +167,5 @@
 				endswitch; 
 			}
 		}
-		$books = Book::GetBook();
-		$movies = Movie::GetMovie();
-		$albums = Album::GetAlbum();
-		require_once('views/home/library.php');
+		echo '<script>window.location.href = "/Medianeth/Home/library";</script>';
 	}

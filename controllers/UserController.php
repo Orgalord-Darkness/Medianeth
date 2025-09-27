@@ -13,10 +13,10 @@
                         header('Location:/Medianeth/Home/library');
                         exit();
                     }else{
-                        $message = "Mot de passe incorrect. Veuillez réessayer";
+                        $message = "<p class='text-danger'>Mot de passe incorrect. Veuillez réessayer</p>";
                     }
                 }else{
-                    $message = "Email incorrect. Veuillez réessayer";
+                    $message = "<p class='text-danger'>Email incorrect. Veuillez réessayer</p>";
                 }
             }
         }catch(PDOException $e){

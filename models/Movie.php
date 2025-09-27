@@ -19,7 +19,13 @@
     case Biopic = 'Biopic';
     case Historique = 'Historique';
 }
-
+    /**
+    * Classe enfant des médias films 
+    * Attributs en plus : 
+    * @param float $duration pour le nombre d'heures d'un film 
+    * @param Genre $genre qui estr une énumération des genres de film
+    * Méthodes SQL pour intéragir avec la table book de la bdd
+    */
     class Movie extends Media{
 
         private float $duration; 

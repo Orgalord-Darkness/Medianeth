@@ -35,7 +35,7 @@
                                 </select>
                             </div>
                             <div class="col">
-                                <input type="submit" class="btn btn-primary btn-lg" name="rechercher" value="Rechercher">
+                                <input title="lancer la recherche" type="submit" class="btn btn-primary btn-lg" name="rechercher" value="Rechercher">
                             </div>
                         </div>
                     </form>
@@ -72,28 +72,33 @@
                                 </span>
                             </p>
                             <?php 
-                            if ($fields === 'book') {
+                            if($fields === 'book'){
                                 echo "<p class='mb-1'><strong>Nombre de pages :</strong> ".$row['pageNumber']."</p>";
                                 $idString = "book_id"; 
-                            } elseif ($fields === 'movie') {
+                            }elseif ($fields === 'movie'){
                                 echo "<p class='mb-1'><strong>Durée du film :</strong> ".$row['duration']."h</p>";
                                 echo "<p class='mb-1'><strong>Genre :</strong> ".$row['genre']."</p>";
                                 $idString = "movie_id"; 
-                            } elseif ($fields === 'album') {
+                            }elseif ($fields === 'album'){
                                 echo "<p class='mb-1'><strong>Nombre de chansons :</strong> ".$row['songNumber']."</p>";
                                 echo "<p class='mb-1'><strong>Éditeur :</strong> ".$row['editor']."</p>";
                                 $idString = "album_id"; 
                             }
                             ?>
                         </div>
-                        <div class="card-footer">
-                            <div class="d-flex align-item-center justify-content-center">
+                        <div class="card-footer d-flex">
+                            <div class="d-flex col align-item-center justify-content-center">
                                 <form action='/Medianeth/Home/<?php echo $dispo; ?>' method="post">
                                     <input type="hidden" name="id" value="<?php echo $row[$idString]; ?>">
                                     <input type="hidden" name="type" value="<?php echo $fields; ?>">
-                                    <input class = "btn btn-primary "type="submit" name="<?php echo $dispo; ?>" value="<?php echo $dispo; ?>"/>
+                                    <input  title="emprunter ou rendre le média" class = "btn btn-primary "type="submit" name="<?php echo $dispo; ?>" value="<?php echo $dispo; ?>"/>
                                 </form>
                             </div>
+                            <?php if($fields == "album"): ?>
+                                <div class="d-flex col align-item-center justify-content-center">
+                                    <a class="btn btn-primary" title="en savoir plus" href="/Medianeth/Home/showAlbum/<?php echo $row[$idString]; ?>"><i class="fa-solid fa-info"></i></a>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

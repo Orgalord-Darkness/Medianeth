@@ -1,4 +1,12 @@
 <?php
+    /**
+     * Classe enfant des médias albums 
+     * Attributs en plus : 
+     * @param int $trackNumber pour le nombre de pistes d'un album 
+     * @param string $editor pour l'editeur de l'album
+     * @param Illustration $illustration pour l'illustration de l'album 
+     * Méthodes SQL pour intéragir avec la table album de la bdd
+     */
     class Album extends Media{
 
         private int $songNumber; 
@@ -70,7 +78,7 @@
 
         public static function getAlbumById($id){
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("SELECT album_id, title,author,disponibility,songNumber,editor FROM album WHERE album_id = :id") ; 
+            $requete = $connexion->prepare("SELECT album_id, title,author,disponibility,songNumber,editor, album.illustration_id, link FROM album INNER JOIN illustration ON album.illustration_id = illustration.illustration_id WHERE album_id = :id") ; 
             $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
             $requete->execute() ; 
             $album = $requete->fetch(PDO::FETCH_ASSOC) ; 
@@ -80,7 +88,7 @@
         public static function create($titre, $auteur, $disponible,$songNumber, $editor,$illustration_id){
             try{
                 $connexion = connexionBdd() ; 
-                $requete = $connexion->prepare("INSERT INTO `album`(album_id, title, author, disponibility,songNumber,editor,illustration_id created_at,updated_at) VALUES(Null, :title, :author, :disponibility, :songNumber, :editor,:illustration_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
+                $requete = $connexion->prepare("INSERT INTO `album`(album_id, title, author, disponibility,songNumber,editor,illustration_id, created_at,updated_at) VALUES(Null, :title, :author, :disponibility, :songNumber, :editor,:illustration_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
                 $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
                 $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
                 $requete->bindParam(':disponibility', $disponible, PDO::PARAM_INT) ; 

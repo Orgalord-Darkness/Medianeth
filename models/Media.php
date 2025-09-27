@@ -1,15 +1,16 @@
 <?php 
+/**
+ * Classe des différents médias contenus dans la médiathèque
+ * @param string $titre = titre de l'oeuvre
+ * @param string $auteur = auteur de l'oeuvre
+ * @param bool $disponible = disponibilité de l'oeuvre dans la médiathèque
+ * 2 méthodes mères : rendre pour rendre un média et emprunter pour emprunter un média qui affecte la valeur disponible à true ou false 
+ */
 class Media {
     private string $titre; 
     private string $auteur; 
     private bool $disponible; 
 
-    /**
-     * Classe des différents médias contenus dans la médiathèque
-     * @param $titre = titre de l'oeuvre
-     * @param $auteur = auteur de l'oeuvre
-     * @param $disponible = disponibilité de l'oeuvre dans la médiathèque
-     */
     public function __construct($titre, $auteur, $disponible){
         $this->titre = $titre; 
         $this->auteur = $auteur; 

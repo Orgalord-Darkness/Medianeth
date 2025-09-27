@@ -27,7 +27,7 @@
                                     <span class="badge bg-danger">Indisponible</span>
                                 <?php endif; ?>
                             </p>
-                            <p class="mb-1"><strong>Nombre de chansons :</strong> <?php echo $row['songNumber'];?> h</p>
+                            <p class="mb-1"><strong>Nombre de chansons :</strong> <?php echo $row['songNumber'];?></p>
                             <p class="mb-1"><strong>Editeur :</strong> <?php echo $row['editor'];?></p>
                         </div>
                         <div class="card-footer bg-transparent border-0 d-flex justify-content-between">

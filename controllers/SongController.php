@@ -19,8 +19,10 @@
 
 			if(!empty($title)&&!empty($note) && !empty($duration) && !empty($album_id)){
                 $getAlbum = Album::getAlbumById($album_id);
-                $album = new Album($getAlbum['title'], $getAlbum['author'], $getAlbum['disponibility'], $getAlbum['songNumber'], $getAlbum['editor']);
-                if(!empty($album)){
+				$getIllustration = Illustration::GetIllustrationById($getAlbum['illustration_id']);
+				$illustration = new Illustration($getIllustration['name'], $getIllustration['link']);
+                $album = new Album($getAlbum['title'], $getAlbum['author'], $getAlbum['disponibility'], $getAlbum['songNumber'], $getAlbum['editor'],$illustration);
+                if(!empty($getAlbum)){
                     $song = new Song($title, $note, $duration, $album); 
                     $song = Song::create($title, $note, $duration, $album_id); 
                 }

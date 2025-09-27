@@ -1,4 +1,11 @@
 <?php 
+/**
+ * Classe Song de chansons que contiennent les albums
+ * @param string $title pour le titre d'une chanson
+ * @param int $note pour la note sur 5 d'une chanson
+ * @param float $duration pour la durée en minute d'une chanson
+ * @param Album $album pour l'album qui contient la chanson 
+ */
 class Song {
     
     private string $title; 
@@ -32,10 +39,10 @@ class Song {
 
     public static function GetSongByAlbumId($id){
         $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT song.song_id, song.title,song.album_id,song.note,song.duration FROM song INNER JOIN album ON song.album_id = album.album_id WHERE song.album_id = :id") ; 
+        $requete = $connexion->prepare("SELECT song.song_id AS song_id, song.title As title,song.album_id AS album_id ,song.note AS note,song.duration AS duration FROM song INNER JOIN album ON song.album_id = album.album_id WHERE song.album_id = :id") ; 
         $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
         $requete->execute() ; 
-        $song = $requete->fetch(PDO::FETCH_ASSOC) ; 
+        $song = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
         return $song ; 
     }
 

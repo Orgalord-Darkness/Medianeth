@@ -25,9 +25,9 @@
                 <!-- Duration -->
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="label-duration">Durée</span>
-                    <input type="text" class="form-control" id="duration" name="duration"
+                    <input type="float" class="form-control" id="duration" name="duration"
                            value="<?php if(isset($duration)){ echo $duration ;}?>" 
-                           required aria-describedby="label-duration" placeholder="ex: 03:45">
+                           required aria-describedby="label-duration" placeholder="ex: 3.45">
                 </div>
 
                 <!-- Album ID -->

@@ -1,4 +1,10 @@
 <?php 
+/**
+ * Classe User pour les utilisateurs de l'application
+ * @param string $login pour l'identifiant
+ * @param string $email pour l'email 
+ * @param string $password pour le mot de passe hashé dans la bdd
+ */
 class User{
     
     private string $login; 
