@@ -17,7 +17,7 @@
                         <div class="card-body">
                             <img src="<?= htmlspecialchars($row['link'] ?? ''); ?>" 
                                 alt="<?= htmlspecialchars($row['name'] ?? ''); ?>" 
-                                class="img-fluid mb-3" style="max-height:200px; object-fit:cover;">
+                                class="img-fluid mb-3" style="max-height:200px; object-fit:cover;" loading="lazy">
                             <p class="mb-1"><strong>Auteur :</strong> <?php echo $row['author'];?></p>
                             <p class="mb-1">
                                 <strong>Disponibilité :</strong>

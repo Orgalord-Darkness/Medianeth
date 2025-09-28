@@ -1,3 +1,43 @@
 body {
     padding-top: 70px; /* Ajuste à la hauteur réelle de ta navbar */
   }
+
+.custom-card {
+      max-width: 100%;
+      border-radius: 10px;
+      background-color: #f8f9fa;
+  }
+
+  .album-image {
+      max-height: 300px;
+      object-fit: cover;
+      width: auto;
+      max-width: 100%;
+  }
+
+  .song-list-scroll {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #dee2e6;
+      border-radius: .25rem;
+      background-color: #fff;
+  }
+
+  /* Un peu d’esthétique pour la scrollbar */
+  .song-list-scroll::-webkit-scrollbar {
+      width: 6px;
+  }
+  .song-list-scroll::-webkit-scrollbar-thumb {
+      background-color: #adb5bd;
+      border-radius: 10px;
+  }
+
+  @media (max-width: 768px) {
+      .album-image {
+          max-height: 200px;
+      }
+
+      .song-list-scroll {
+          max-height: 200px;
+      }
+  }

@@ -1,6 +1,7 @@
 <html>
     <body>
         <div class="container my-4">
+            <h1>Bonjour <?php if(isset($_SESSION['login'])): echo $_SESSION['login'] ; endif ?></h1>
             <div class="row">
                 <div class="col">
                     <form method="POST">
@@ -49,7 +50,8 @@
                         <div class="card-body">
                              <img src="<?= htmlspecialchars($row['link'] ?? ''); ?>" 
                                 alt="<?= htmlspecialchars($row['name'] ?? ''); ?>" 
-                                class="img-fluid mb-3" style="max-height:200px; object-fit:cover;">
+                                class="img-fluid mb-3" style="max-height:200px; object-fit:cover;"
+                                loading="lazy">
                             <p class="mb-1"><strong>Auteur :</strong> <?php echo $row['author']; ?></p>
                             <p class="mb-1"><strong>Disponibilité :</strong> 
                                 <span class="<?= $row['disponibility'] ? 'text-success' : 'text-danger' ?>">
@@ -66,6 +68,7 @@
                                 <form action='/Medianeth/Home/<?php echo $dispo; ?>' method="post">
                                     <input type="hidden" name="id" value="<?php echo $row[$idString]; ?>">
                                     <input type="hidden" name="type" value="<?php echo "book"; ?>">
+                                     <input type="hidden" name="page" value="dashboard"/>
                                     <input  title="emprunter ou rendre le média" class = "btn btn-primary "type="submit" name="<?php echo $dispo; ?>" value="<?php echo $dispo; ?>"/>
                                 </form>
                             </div>
@@ -101,7 +104,7 @@
                         <div class="card-body">
                              <img src="<?= htmlspecialchars($row['link'] ?? ''); ?>" 
                                 alt="<?= htmlspecialchars($row['name'] ?? ''); ?>" 
-                                class="img-fluid mb-3" style="max-height:200px; object-fit:cover;">
+                                class="img-fluid mb-3" style="max-height:200px; object-fit:cover;" loading="lazy">
                             <p class="mb-1"><strong>Auteur :</strong> <?php echo $row['author']; ?></p>
                             <p class="mb-1"><strong>Disponibilité :</strong> 
                                 <span class="<?= $row['disponibility'] ? 'text-success' : 'text-danger' ?>">
@@ -120,6 +123,7 @@
                                 <form action='/Medianeth/Home/<?php echo $dispo; ?>' method="post">
                                     <input type="hidden" name="id" value="<?php echo $row[$idString]; ?>">
                                     <input type="hidden" name="type" value="<?php echo "movie"; ?>">
+                                    <input type="hidden" name="page" value="library"/>
                                     <input  title="emprunter ou rendre le média" class = "btn btn-primary "type="submit" name="<?php echo $dispo; ?>" value="<?php echo $dispo; ?>"/>
                                 </form>
                             </div>
@@ -155,7 +159,7 @@
                         <div class="card-body">
                              <img src="<?= htmlspecialchars($row['link'] ?? ''); ?>" 
                                 alt="<?= htmlspecialchars($row['name'] ?? ''); ?>" 
-                                class="img-fluid mb-3" style="max-height:200px; object-fit:cover;">
+                                class="img-fluid mb-3" style="max-height:200px; object-fit:cover;" loading="lazy">
                             <p class="mb-1"><strong>Auteur :</strong> <?php echo $row['author']; ?></p>
                             <p class="mb-1"><strong>Disponibilité :</strong> 
                                 <span class="<?= $row['disponibility'] ? 'text-success' : 'text-danger' ?>">
@@ -168,17 +172,18 @@
                                 $idString = "album_id"; 
                             ?>
                         </div>
-                        <div class="card-footer d-flex">
-                            <div class="d-flex col align-item-center justify-content-center">
-                                <form action='/Medianeth/Home/<?php echo $dispo; ?>' method="post">
-                                    <input type="hidden" name="id" value="<?php echo $row[$idString]; ?>">
-                                    <input type="hidden" name="type" value="<?php echo "album"; ?>">
-                                    <input  title="emprunter ou rendre le média" class = "btn btn-primary "type="submit" name="<?php echo $dispo; ?>" value="<?php echo $dispo; ?>"/>
-                                </form>
-                            </div>
-                            <div class="d-flex col align-item-center justify-content-center">
-                                <a class="btn btn-primary" title="en savoir plus" href="/Medianeth/Home/showAlbum/<?php echo $row[$idString]; ?>"><i class="fa-solid fa-info"></i></a>
-                            </div>
+                        <div class="card-footer d-flex justify-content-between align-items-center gap-2">
+                            <form action="/Medianeth/Home/<?php echo $dispo; ?>" method="post" class="m-0">
+                                <input type="hidden" name="id" value="<?php echo $row[$idString]; ?>">
+                                <input type="hidden" name="type" value="album">
+                                <input type="hidden" name="page" value="library"/>
+                                <input title="Emprunter ou rendre le média" class="btn btn-primary btn-sm" type="submit" name="<?php echo $dispo; ?>" 
+                                    value="<?php echo $dispo; ?>"/>
+                            </form>
+                            <a class="btn btn-primary btn-sm d-flex align-items-center justify-content-center square-icon-button" title="En savoir plus" 
+                            href="/Medianeth/Home/showAlbum/<?php echo $row[$idString]; ?>">
+                                <i class="fa-solid fa-info"></i>
+                            </a>
                         </div>
                     </div>
                 </div>

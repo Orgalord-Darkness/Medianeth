@@ -17,9 +17,8 @@
                         <div class="card-body text-center">
                             <img src="<?= htmlspecialchars($row['link'] ?? ''); ?>" 
                                 alt="<?= htmlspecialchars($row['name'] ?? ''); ?>" 
-                                class="img-fluid mb-3" style="max-height:200px; object-fit:cover;">
+                                class="img-fluid mb-3" style="max-height:200px; object-fit:cover;" loading="lazy">
 
-                            <!-- Lien -->
                             <p class="mb-1">
                                 <strong>Lien :</strong> 
                                 <a href="<?= htmlspecialchars($row['link'] ?? ''); ?>" target="_blank">

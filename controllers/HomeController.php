@@ -46,13 +46,18 @@
 		if(isset($_POST['order'])){
 			$order = $_POST['order'];
 		}else{
-			$order = "ASC";
+			$order = null; 
+		}
+		if(isset($_POST['disponibility'])){
+			$dispo = $_POST['disponibility'];
+		}else{
+			$dispo = null;
 		}
 		switch($type) :
 			case 'Book': 
 				$count = count($books); 
-				if(!empty($order)){
-					$media = Book::GetBookByOrder($order);
+				if(!empty($dispo)){
+					$media = Book::GetBookByDispo($dispo);
 				}else{
 					$media  = $books; 
 				}
@@ -61,8 +66,8 @@
 				break; 
 			case 'Movie': 
 				$count = count($movies); 
-				if(!empty($order)){
-					$media = Movie::GetMovieByOrder($order);
+				if(!empty($dispo)){
+					$media = Movie::GetMovieByDispo($dispo);
 				}else{
 					$media  = $movies; 
 				}
@@ -72,8 +77,8 @@
 			
 			case 'Album': 
 				$count = count($albums); 
-				if(!empty($order)){
-					$media = Album::GetAlbumByOrder($order);
+				if($order != null){
+					$media = Album::GetAlbumByDispo($dispo);
 				}else{
 					$media  = $albums; 
 				}
@@ -92,8 +97,21 @@
 			$recherches = leven($media, $search); 
 			$media = $recherches; 
 		}
+
+		if ($order === 'ASC' || $order === 'DESC') {
+			$sortedMedia = $media;
+			usort($sortedMedia, function($a, $b) use ($order) {
+				$titleA = strtolower($a['title']);
+				$titleB = strtolower($b['title']);
+				if ($titleA === $titleB) return 0;
+				return ($order === 'ASC') ? ($titleA < $titleB ? -1 : 1) : ($titleA > $titleB ? -1 : 1);
+			});
+			$media = $sortedMedia;
+		}
+
 		require_once('views/home/library.php') ; 
 	}
+
 
 	function showAlbum($id){
 		if(isset($id) && !empty($id)){
@@ -141,8 +159,13 @@
 				endswitch; 
 			}
 		}
-
-		echo '<script>window.location.href = "/Medianeth/Home/library";</script>';
+		if(isset($_POST['page']) && !empty($_POST['page'])){
+			$page = $_POST['page'];
+			if($page == "showAlbum"){
+				echo '<script>window.location.href = "/Medianeth/Home/'.$page.'/'.$id.'";</script>';
+			}
+		}
+		echo '<script>window.location.href = "/Medianeth/Home/'.$page.'";</script>';
 	}
 
 	function emprunter(){
@@ -167,5 +190,11 @@
 				endswitch; 
 			}
 		}
-		echo '<script>window.location.href = "/Medianeth/Home/library";</script>';
+		if(isset($_POST['page']) && !empty($_POST['page'])){
+			$page = $_POST['page'];
+			if($page == "showAlbum"){
+				echo '<script>window.location.href = "/Medianeth/Home/'.$page.'/'.$id.'";</script>';
+			}
+		}
+		echo '<script>window.location.href = "/Medianeth/Home/'.$page.'";</script>';
 	}

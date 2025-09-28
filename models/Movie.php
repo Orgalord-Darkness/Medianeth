@@ -19,13 +19,40 @@
     case Biopic = 'Biopic';
     case Historique = 'Historique';
 }
-    /**
-    * Classe enfant des médias films 
-    * Attributs en plus : 
-    * @param float $duration pour le nombre d'heures d'un film 
-    * @param Genre $genre qui estr une énumération des genres de film
-    * Méthodes SQL pour intéragir avec la table book de la bdd
-    */
+   /**
+     * Classe Movie
+     *
+     * Représente un média de type film. Hérite de la classe Media.
+     * Gère les opérations liées aux films dans la base de données.
+     *
+     * Attributs :
+     * @property float $duration Durée du film en heures.
+     * @property Genre $genre Genre du film (énumération personnalisée).
+     *
+     * Constructeur :
+     * @param string $titre Titre du film
+     * @param string $auteur Auteur ou réalisateur du film
+     * @param int $disponible Disponibilité (1 = disponible, 0 = non)
+     * @param float $duration Durée du film
+     * @param string $genre Genre du film (valeur de l'enum Genre)
+     *
+     * Méthodes :
+     * @method float getDuration() Retourne la durée du film
+     * @method void setDuration(float $duration) Définit la durée du film
+     * @method Genre getGenre() Retourne le genre du film
+     * @method void setGenre(Genre $genre) Définit le genre du film
+     *
+     * Méthodes SQL :
+     * @method static array GetMovie() Récupère tous les films avec leurs illustrations
+     * @method static array|null GetMovieById(int $id) Récupère un film par son ID
+     * @method static void create(string $titre, string $auteur, int $disponible, float $duration, string $genre, int $illustration_id) Crée un film en base
+     * @method static void update(int $id, string $titre, string $auteur, int $disponible, float $duration, string $genre, int $illustration_id) Met à jour un film
+     * @method static void delete(int $id) Supprime un film par son ID
+     * @method static void rendre(int $id) Marque le film comme disponible
+     * @method static void emprunter(int $id) Marque le film comme emprunté
+     * @method static array GetMovieByOrder(string $order) Récupère les films triés par titre (ASC ou DESC)
+     */
+
     class Movie extends Media{
 
         private float $duration; 
@@ -55,7 +82,7 @@
 
         public static function GetMovie(){ 
         $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre,illustration.link FROM movie INNER JOIN illustration ON movie.illustration_id = illustration.illustration_id") ; 
+        $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre,illustrations.link FROM movies INNER JOIN illustrations ON movies.illustration_id = illustrations.illustration_id") ; 
         $requete->execute() ; 
         $movies = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
         return $movies ; 
@@ -63,7 +90,7 @@
 
     public static function GetMovieById($id){
         $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre FROM movie WHERE movie_id = :id") ; 
+        $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre FROM movies WHERE movie_id = :id") ; 
         $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
         $requete->execute() ; 
         $movie = $requete->fetch(PDO::FETCH_ASSOC) ; 
@@ -75,7 +102,7 @@
             $enumGenre = Genre::from($genre); 
             $valueGenre = $enumGenre->value;
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("INSERT INTO `movie`(`movie_id`, `title`,`author`,`disponibility`,`duration`,`genre`,`illustration_id`,`created_at`,`updated_at`)  VALUES(Null, :title, :author, :disponibility, :duration , :genre,:illustration_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
+            $requete = $connexion->prepare("INSERT INTO `movies`(`movie_id`, `title`,`author`,`disponibility`,`duration`,`genre`,`illustration_id`,`created_at`,`updated_at`)  VALUES(Null, :title, :author, :disponibility, :duration , :genre,:illustration_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
             $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
             $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
             $requete->bindParam(':disponibility', $disponible, PDO::PARAM_INT) ; 
@@ -93,7 +120,7 @@
             $enumGenre = Genre::from($genre); 
             $valueGenre = $enumGenre->value;
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("UPDATE `movie` SET `title`=:title, `author`=:author, `disponibility`=:disponibility, `duration`=:duration, `genre`=:genre, `illustration_id`=:illustration_id , `updated_at`=CURRENT_TIMESTAMP WHERE `movie_id`=:id") ; 
+            $requete = $connexion->prepare("UPDATE `movies` SET `title`=:title, `author`=:author, `disponibility`=:disponibility, `duration`=:duration, `genre`=:genre, `illustration_id`=:illustration_id , `updated_at`=CURRENT_TIMESTAMP WHERE `movie_id`=:id") ; 
             $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
             $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
             $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
@@ -110,7 +137,7 @@
     public static function delete($id){ 
         try{
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("DELETE FROM `movie` WHERE `movie_id` = :id"); 
+            $requete = $connexion->prepare("DELETE FROM `movies` WHERE `movie_id` = :id"); 
             $requete->bindParam(':id',$id,PDO::PARAM_INT); 
             $requete->execute() ; 
         }catch(PDOException $e){
@@ -121,7 +148,7 @@
     public static function rendre($id){
         try{
             $connexion = connexionBdd(); 
-            $requete = $connexion->prepare("UPDATE `movie` SET `disponibility` = 1 WHERE `movie_id` = :id"); 
+            $requete = $connexion->prepare("UPDATE `movies` SET `disponibility` = 1 WHERE `movie_id` = :id"); 
             $requete->bindParam(':id',$id,PDO::PARAM_INT); 
             $requete->execute() ;
 
@@ -133,7 +160,7 @@
     public static function emprunter($id){
         try{
             $connexion = connexionBdd(); 
-            $requete = $connexion->prepare("UPDATE `movie` SET `disponibility` = 0 WHERE `movie_id` = :id"); 
+            $requete = $connexion->prepare("UPDATE `movies` SET `disponibility` = 0 WHERE `movie_id` = :id"); 
             $requete->bindParam(':id',$id,PDO::PARAM_INT); 
             $requete->execute() ;
 
@@ -142,18 +169,18 @@
         }
     }
 
-    public static function GetMovieByOrder($order){
+    public static function GetMovieByDispo($dispo){
         try{
             $connexion = connexionBdd(); 
-            switch($order):
-                case 'ASC' : 
-                     $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre,illustration.link FROM movie INNER JOIN illustration ON movie.illustration_id = illustration.illustration_id ORDER BY title ASC"); 
+            switch($dispo):
+                case 'true' : 
+                     $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre,illustrations.link FROM movies INNER JOIN illustrations ON movies.illustration_id = illustrations.illustration_id WHERE disponibility = 1"); 
                      break; 
-                case 'DESC': 
-                    $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre,illustration.link FROM movie INNER JOIN illustration ON movie.illustration_id = illustration.illustration_id ORDER BY title DESC"); 
+                case 'false': 
+                    $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre,illustrations.link FROM movies INNER JOIN illustrations ON movies.illustration_id = illustrations.illustration_id WHERE disponibility = 0"); 
                      break; 
                 default : 
-                 $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre,illustration.link FROM movie INNER JOIN illustration ON movie.illustration_id = illustration.illustration_id"); 
+                 $requete = $connexion->prepare("SELECT movie_id, title,author,disponibility,duration,genre,illustrations.link FROM movies INNER JOIN illustrations ON movies.illustration_id = illustrations.illustration_id"); 
 
             endswitch;
 

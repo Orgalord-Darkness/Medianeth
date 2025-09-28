@@ -1,105 +1,118 @@
 <?php 
-/**
- * Classe User pour les utilisateurs de l'application
- * @param string $login pour l'identifiant
- * @param string $email pour l'email 
- * @param string $password pour le mot de passe hashé dans la bdd
- */
-class User{
-    
-    private string $login; 
-    private string $email;
-    private string $password; 
+    /**
+     * Classe User pour les utilisateurs de l'application.
+     *
+     * Attributs :
+     * @property string $login Identifiant de l'utilisateur
+     * @property string $email Adresse email de l'utilisateur
+     * @property string $password Mot de passe hashé stocké dans la base de données
+     * @property Illustration $illustration Illustration / avatar du compte utilisateur
+     *
+     * Méthodes principales :
+     * - get/set pour chaque attribut
+     * - Méthodes statiques pour interagir avec la base de données :
+     *   - GetUser() : récupère tous les utilisateurs
+     *   - GetUserByEmail(string $email) : récupère un utilisateur via son email
+     *   - GetUserById(int $id) : récupère un utilisateur via son ID
+     *   - create(string $login, string $email, string $password, int $illustration_id) : crée un nouvel utilisateur
+     *   - delete(int $id) : supprime un utilisateur par ID
+     */
+    class User {
+        
+        private string $login; 
+        private string $email;
+        private string $password;
+        private Illustration $illustration;
 
-    public function __construct($login, $email, $password){
-        $this->login = $login; 
-        $this->email = $email; 
-        $this->password = $password; 
-    }
+        public function __construct($login, $email, $password, Illustration $illustration){
+            $this->login = $login; 
+            $this->email = $email; 
+            $this->password = $password; 
+            $this->illustration = $illustration;
+        }
 
-    public function getLogin(){
-        return $this->login; 
-    }
+        public function getIllustration(): Illustration {
+            return $this->illustration;
+        }
 
-    public function setLogin($login){
-        $this->login = $login; 
-    }
+        public function setIllustration(Illustration $illustration): void {
+            $this->illustration = $illustration;
+        }
 
-    public function getEmail(){
-        return $this->email; 
-    }
+        public function getLogin(){
+            return $this->login; 
+        }
 
-    public function setEmail($email){
-        $this->email = $email; 
-    }
+        public function setLogin($login){
+            $this->login = $login; 
+        }
 
-    public function getPassword(){
-        return $this->password; 
-    }
+        public function getEmail(){
+            return $this->email; 
+        }
 
-    public function setPassword($password){
-        $this->password = $password; 
-    }
+        public function setEmail($email){
+            $this->email = $email; 
+        }
 
-    public static function GetUser(){ 
-        $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT login,email, password FROM user") ; 
-        $requete->execute() ; 
-        $users = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
-        return $users ; 
-    }
+        public function getPassword(){
+            return $this->password; 
+        }
 
-    public static function getByEmail($email){
-        $connexion = connexionBdd() ; 
-        $requete = $connexion->prepare("SELECT user_id, login,email, password FROM user WHERE email = :email") ; 
-        $requete->bindParam(':email', $email, PDO::PARAM_STR) ; 
-        $requete->execute() ; 
-        $user = $requete->fetch(PDO::FETCH_ASSOC) ; 
-        return $user ; 
-    }
+        public function setPassword($password){
+            $this->password = $password; 
+        }
 
-    public static function create($login,$email, $password){
-        try{
+        public static function GetUser(){ 
             $connexion = connexionBdd() ; 
-            $hash = password_hash($password, PASSWORD_ARGON2ID);
-            $requete = $connexion->prepare("INSERT INTO `user`(user_id, login, email, password, created_at, updated_at)  VALUES(Null, :login,:email,  :password, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
-            $requete->bindParam(':login', $login, PDO::PARAM_STR) ; 
-            $requete->bindParam(':email',$email, PDO::PARAM_STR);
-            $requete->bindParam(':password', $hash, PDO::PARAM_STR) ; 
+            $requete = $connexion->prepare("SELECT user_id, login, email, password, illustration_id FROM users") ; 
             $requete->execute() ; 
+            $users = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+            return $users ; 
+        }
 
-            $user_id = $connexion->lastInsertId();
-            return new User($user_id, $login, $email, $hash, new DateTime(), new DateTime());
-        }catch(PDOException $e){
-            echo "erreur de create ".$e ; 
+        public static function GetUserByEmail($email){
+            $connexion = connexionBdd() ; 
+            $requete = $connexion->prepare("SELECT user_id, login,email, password, illustrations.link AS link FROM users INNER JOIN illustrations ON users.illustration_id = illustrations.illustration_id WHERE email = :email") ; 
+            $requete->bindParam(':email', $email, PDO::PARAM_STR) ; 
+            $requete->execute() ; 
+            $user = $requete->fetch(PDO::FETCH_ASSOC) ; 
+            return $user ; 
+        }
+
+        public static function GetUserById($id){
+            $connexion = connexionBdd() ; 
+            $requete = $connexion->prepare("SELECT user_id, login,email, password, illustrations.link AS link FROM users INNER JOIN illustrations ON users.illustration_id = illustrations.illustration_id WHERE user_id = :id") ; 
+            $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
+            $requete->execute() ; 
+            $user = $requete->fetch(PDO::FETCH_ASSOC) ; 
+            return $user ; 
+        }
+
+        public static function create($login, $email, $password, $illustration_id){
+            try{
+                $connexion = connexionBdd() ; 
+                $hash = password_hash($password, PASSWORD_ARGON2ID);
+                $requete = $connexion->prepare("INSERT INTO `users`(user_id, login, email, password, illustration_id, created_at, updated_at) VALUES(NULL, :login, :email, :password, :illustration_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)"); 
+                $requete->bindParam(':login', $login, PDO::PARAM_STR) ; 
+                $requete->bindParam(':email', $email, PDO::PARAM_STR);
+                $requete->bindParam(':password', $hash, PDO::PARAM_STR) ; 
+                $requete->bindParam(':illustration_id', $illustration_id, PDO::PARAM_INT);
+                $requete->execute() ; 
+
+            }catch(PDOException $e){
+                echo "erreur de create ".$e ; 
+            }
+        }
+
+        public static function delete($id) {
+            try {
+                $connexion = connexionBdd();
+                $requete = $connexion->prepare("DELETE FROM `users` WHERE user_id = :id");
+                $requete->bindParam(':id', $id, PDO::PARAM_INT);
+                $requete->execute();
+            } catch (PDOException $e) {
+                echo "Erreur de suppression : " . $e->getMessage();
+            }
         }
     }
-
-
-    public static function update($titre, $auteur, $disponible,$pageNumber){
-        try{
-            $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("UPDATE `book` `title`=:title, `author`=:author, `disponibility`=:disponibility, `pageNumber`=:pageNumber CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
-            $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
-            $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
-            $requete->bindParam(':disponible', $disponible, PDO::PARAM_BOOL) ; 
-            $requete->bindParam(':pageNumber', $pageNumber, PDO::PARAM_INT) ; 
-            $requete->execute() ; 
-        }catch(PDOException $e){
-            echo "erreur de modification ".$e ; 
-        }
-    }
-
-    public static function delete($id){ 
-        try{
-            $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("DELETE FROM `book` WHERE `book_id` = :id"); 
-            $requete->bindParam(':id',$id,PDO::PARAM_INT); 
-            $requete->execute() ; 
-        }catch(PDOException $e){
-            echo "Erreur de suppression".$e ; 
-        }
-    }
-
-
-}

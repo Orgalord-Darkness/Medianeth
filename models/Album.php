@@ -1,11 +1,23 @@
 <?php
     /**
-     * Classe enfant des médias albums 
-     * Attributs en plus : 
-     * @param int $trackNumber pour le nombre de pistes d'un album 
-     * @param string $editor pour l'editeur de l'album
-     * @param Illustration $illustration pour l'illustration de l'album 
-     * Méthodes SQL pour intéragir avec la table album de la bdd
+     * Classe Album représentant un média de type album, héritant de la classe Media.
+     *
+     * Attributs :
+     * @property int $songNumber Nombre de pistes dans l'album
+     * @property string $editor Éditeur de l'album
+     * @property Illustration $illustration Illustration associée à l'album
+     *
+     * Méthodes principales :
+     * - get/set pour chaque attribut
+     * - Méthodes statiques pour interagir avec la base de données :
+     *   - GetAlbum() : récupère tous les albums avec leurs illustrations
+     *   - GetAlbumByOrder(string $order) : récupère les albums triés par titre (ASC ou DESC)
+     *   - getAlbumById(int $id) : récupère un album spécifique via son ID
+     *   - create(string $titre, string $auteur, int $disponible, int $songNumber, string $editor, int $illustration_id) : crée un nouvel album
+     *   - update(int $id, string $titre, string $auteur, int $disponible, int $songNumber, string $editor, int $illustration_id) : met à jour un album existant
+     *   - delete(int $id) : supprime un album via son ID
+     *   - rendre(int $id) : marque l'album comme disponible (disponibility = 1)
+     *   - emprunter(int $id) : marque l'album comme emprunté (disponibility = 0)
      */
     class Album extends Media{
 
@@ -46,24 +58,24 @@
 
         public static function GetAlbum(){ 
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("SELECT album_id,title,author,disponibility,songNumber,editor, link FROM album INNER JOIN illustration ON album.illustration_id = illustration.illustration_id") ; 
+            $requete = $connexion->prepare("SELECT album_id,title,author,disponibility,songNumber,editor, link FROM albums INNER JOIN illustrations ON albums.illustration_id = illustrations.illustration_id") ; 
             $requete->execute() ; 
             $albums = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
             return $albums ; 
         }
 
-        public static function GetAlbumByOrder($order){ 
+        public static function GetAlbumByDispo($dispo){ 
             try{
                 $connexion = connexionBdd(); 
-                switch($order):
-                    case 'ASC' : 
-                        $requete = $connexion->prepare("SELECT album_id,title,author,disponibility,songNumber,editor, link FROM album INNER JOIN illustration ON album.illustration_id = illustration.illustration_id ORDER BY title ASC"); 
+                switch($dispo):
+                    case "true" : 
+                        $requete = $connexion->prepare("SELECT album_id,title,author,disponibility,songNumber,editor, link FROM albums INNER JOIN illustrations ON albums.illustration_id = illustrations.illustration_id WHERE disponibility = 1"); 
                         break; 
-                    case 'DESC': 
-                        $requete = $connexion->prepare("SELECT album_id,title,author,disponibility,songNumber,editor, link FROM album INNER JOIN illustration ON album.illustration_id = illustration.illustration_id ORDER BY title DESC"); 
+                    case "false": 
+                        $requete = $connexion->prepare("SELECT album_id,title,author,disponibility,songNumber,editor, link FROM albums INNER JOIN illustrations ON albums.illustration_id = illustrations.illustration_id WHERE disponibility = 0"); 
                         break; 
                     default : 
-                        $requete = $connexion->prepare("SELECT album_id,title,author,disponibility,songNumber,editor, link FROM album INNER JOIN illustration ON album.illustration_id = illustration.illustration_id"); 
+                        $requete = $connexion->prepare("SELECT album_id,title,author,disponibility,songNumber,editor, link FROM albums INNER JOIN illustrations ON albums.illustration_id = illustrations.illustration_id"); 
 
                 endswitch;
 
@@ -78,7 +90,7 @@
 
         public static function getAlbumById($id){
             $connexion = connexionBdd() ; 
-            $requete = $connexion->prepare("SELECT album_id, title,author,disponibility,songNumber,editor, album.illustration_id, link FROM album INNER JOIN illustration ON album.illustration_id = illustration.illustration_id WHERE album_id = :id") ; 
+            $requete = $connexion->prepare("SELECT album_id, title,author,disponibility,songNumber,editor, albums.illustration_id, link FROM albums INNER JOIN illustrations ON albums.illustration_id = illustrations.illustration_id WHERE album_id = :id") ; 
             $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
             $requete->execute() ; 
             $album = $requete->fetch(PDO::FETCH_ASSOC) ; 
@@ -88,7 +100,7 @@
         public static function create($titre, $auteur, $disponible,$songNumber, $editor,$illustration_id){
             try{
                 $connexion = connexionBdd() ; 
-                $requete = $connexion->prepare("INSERT INTO `album`(album_id, title, author, disponibility,songNumber,editor,illustration_id, created_at,updated_at) VALUES(Null, :title, :author, :disponibility, :songNumber, :editor,:illustration_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
+                $requete = $connexion->prepare("INSERT INTO `albums`(album_id, title, author, disponibility,songNumber,editor,illustration_id, created_at,updated_at) VALUES(Null, :title, :author, :disponibility, :songNumber, :editor,:illustration_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
                 $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
                 $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
                 $requete->bindParam(':disponibility', $disponible, PDO::PARAM_INT) ; 
@@ -104,7 +116,7 @@
         public static function update($id, $titre, $auteur, $disponible,$songNumber, $editor,$illustration_id){
             try{
                 $connexion = connexionBdd() ; 
-                $requete = $connexion->prepare("UPDATE `album` SET `title`=:title, `author`=:author, `disponibility`=:disponibility, `songNumber`=:songNumber,`editor`=:editor, `illustration_id`= :illustration_id,`updated_at`=CURRENT_TIMESTAMP WHERE album_id = :id;") ; 
+                $requete = $connexion->prepare("UPDATE `albums` SET `title`=:title, `author`=:author, `disponibility`=:disponibility, `songNumber`=:songNumber,`editor`=:editor, `illustration_id`= :illustration_id,`updated_at`=CURRENT_TIMESTAMP WHERE album_id = :id;") ; 
                 $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
                 $requete->bindParam(':title', $titre, PDO::PARAM_STR) ; 
                 $requete->bindParam(':author', $auteur, PDO::PARAM_STR) ; 
@@ -121,7 +133,7 @@
         public static function delete($id){ 
             try{
                 $connexion = connexionBdd() ; 
-                $requete = $connexion->prepare("DELETE FROM `album` WHERE `album_id` = :id"); 
+                $requete = $connexion->prepare("DELETE FROM `albums` WHERE `album_id` = :id"); 
                 $requete->bindParam(':id',$id,PDO::PARAM_INT); 
                 $requete->execute() ; 
             }catch(PDOException $e){
@@ -132,7 +144,7 @@
         public static function rendre($id){
             try{
                 $connexion = connexionBdd(); 
-                $requete = $connexion->prepare("UPDATE `album` SET `disponibility` = 1 WHERE `album_id` = :id"); 
+                $requete = $connexion->prepare("UPDATE `albums` SET `disponibility` = 1 WHERE `album_id` = :id"); 
                 $requete->bindParam(':id',$id,PDO::PARAM_INT); 
                 $requete->execute() ;
 
@@ -144,7 +156,7 @@
         public static function emprunter($id){
             try{
                 $connexion = connexionBdd(); 
-                $requete = $connexion->prepare("UPDATE `album` SET `disponibility` = 0 WHERE `album_id` = :id"); 
+                $requete = $connexion->prepare("UPDATE `albums` SET `disponibility` = 0 WHERE `album_id` = :id"); 
                 $requete->bindParam(':id',$id,PDO::PARAM_INT); 
                 $requete->execute() ;
 

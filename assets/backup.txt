@@ -127,3 +127,403 @@ abstract class Connexion {
 	// 	}
 	// 	require_once('views/home/library.php') ; 
 	// }
+
+
+
+
+	Pour le 28: 
+
+	X- Lazy loading img
+	X- Illustration dans utilisateur
+	X- Commenté les méthodes
+	X- Changé le menu de non connecté 
+	X- mieux génrer les redirections doublons (pour rendre emprunter et les administrations) 
+
+	--------------------------------------------------------------------------------------------------------------------------------Menu 
+
+	<button class="btn btn-primary button-fixed" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop" title="menu">
+  <i class="fa-solid fa-bars"></i>
+</button>
+<?php if(isset($_SESSION['user_id'])): ?>
+
+<div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="staticBackdropLabel"><i class="fa-solid fa-bars"></i></h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <h1><?php if(isset($_SESSION['login'])){echo $_SESSION['login'] ; }?></h1>
+            </li>
+            <li class="nav-item">
+                <a href="/Medianeth/Home/library/" class="nav-link link-dark" title="vue d'ensembe">
+                <i class="fa-solid fa-eye"></i>
+                Accueil
+                </a>
+            </li>
+             <li class="nav-item">
+                <a href="/Medianeth/Home/dashboard/" class="nav-link link-dark" title="vue d'ensembe">
+                <i class="fa-solid fa-gauge"></i>
+                Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/Medianeth/Book/adminBook/" class="nav-link link-dark" title="vue d'ensembe">
+                <i class="fa-solid fa-book"></i>
+                Livre
+                </a>
+            </li>
+            <li>
+                <a href="/Medianeth/Movie/adminMovie" class="nav-link link-dark" title="rechercher le planning d'un employer">
+                    <i class="fa-solid fa-film"></i>
+                    Film
+                </a>
+            </li>
+            <li>
+                <a href="/Medianeth/Album/adminAlbum" class="nav-link link-dark" title="statistiques des heures">
+                    <i class="fa-solid fa-record-vinyl"></i>
+                    Album
+                </a>
+            </li>
+            <li>
+                <a href="/Medianeth/Song/adminSong" class="nav-link link-dark" title="statistiques des heures">
+                    <i class="fa-solid fa-music"></i>
+                    Song
+                </a>
+            </li>
+            <li>
+                <a href="/Medianeth/Illustration/adminIllustration" class="nav-link link-dark" title="statistiques des heures">
+                    <i class="fa-solid fa-image"></i>
+                    Illustration
+                </a>
+            </li>
+            <li>
+                <a href="/Medianeth/User/logout" class="nav-link link-dark" title="statistiques des heures">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Déconnexion
+                </a>
+            </li>
+        </ul>
+        <hr>
+  </div>
+</div>
+<?php else: 
+?>
+
+<div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="staticBackdropLabel"><i class="fa-solid fa-bars"></i></h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+        <li>
+            <a href="/Medianeth/User/login" class="nav-link link-dark" title="statistiques des heures">
+                <i class="fa-solid fa-person"></i>
+                Connexion
+            </a>
+        </li>
+        <li>
+            <a href="/Medianeth/User/signin" class="nav-link link-dark" title="statistiques des heures">
+                <i class="fa-solid fa-person"></i>
+                Inscription
+            </a>
+        </li>
+        </ul>
+        <hr>
+  </div>
+</div>
+<?php endif;?>
+
+--------------------------------------------------------------------------------------------------------------------------------------------	Menu 2
+
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3 fixed-top opacity-75">
+  <a class="navbar-brand text-white" href="/Medianeth/Home/library/">
+    <i class="fa-solid fa-book-open"></i> Medianeth
+  </a>
+
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMedianeth" aria-controls="navbarMedianeth" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarMedianeth">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <?php if(isset($_SESSION['user_id'])): ?>
+        <li class="nav-item">
+          <a class="nav-link text-white hover-bg-light rounded" href="/Medianeth/Home/library/" title="Accueil"><i class="fa-solid fa-eye"></i> Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white hover-bg-light rounded" href="/Medianeth/Home/dashboard/" title="Dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white hover-bg-light rounded" href="/Medianeth/Book/adminBook/" title="Livre"><i class="fa-solid fa-book"></i> Livre</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white hover-bg-light rounded" href="/Medianeth/Movie/adminMovie" title="Film"><i class="fa-solid fa-film"></i> Film</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white hover-bg-light rounded" href="/Medianeth/Album/adminAlbum" title="Album"><i class="fa-solid fa-record-vinyl"></i> Album</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white hover-bg-light rounded" href="/Medianeth/Song/adminSong" title="Chanson"><i class="fa-solid fa-music"></i> Song</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white hover-bg-light rounded" href="/Medianeth/Illustration/adminIllustration" title="Illustration"><i class="fa-solid fa-image"></i> Illustration</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-warning hover-bg-light rounded" href="/Medianeth/User/logout" title="Déconnexion"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+        </li>
+      <?php else: ?>
+        <li class="nav-item">
+          <a class="nav-link text-white hover-bg-light rounded" href="/Medianeth/User/login" title="Connexion"><i class="fa-solid fa-right-to-bracket"></i> Connexion</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white hover-bg-light rounded" href="/Medianeth/User/signin" title="Inscription"><i class="fa-solid fa-user-plus"></i> Inscription</a>
+        </li>
+      <?php endif; ?>
+    </ul>
+
+    <?php if(isset($_SESSION['user_id'])): ?>
+      <span class="navbar-text text-white">
+        <i class="fa-solid fa-user"></i>
+        <?php echo htmlspecialchars($_SESSION['login']); ?>
+      </span>
+    <?php endif; ?>
+  </div>
+</nav>
+-----------------------------------------------------------------------------------------------------------------------classe User
+class User{
+    
+    private string $login; 
+    private string $email;
+    private string $password; 
+
+    public function __construct($login, $email, $password){
+        $this->login = $login; 
+        $this->email = $email; 
+        $this->password = $password; 
+    }
+
+    public function getLogin(){
+        return $this->login; 
+    }
+
+    public function setLogin($login){
+        $this->login = $login; 
+    }
+
+    public function getEmail(){
+        return $this->email; 
+    }
+
+    public function setEmail($email){
+        $this->email = $email; 
+    }
+
+    public function getPassword(){
+        return $this->password; 
+    }
+
+    public function setPassword($password){
+        $this->password = $password; 
+    }
+
+    public static function GetUser(){ 
+        $connexion = connexionBdd() ; 
+        $requete = $connexion->prepare("SELECT login,email, password FROM users") ; 
+        $requete->execute() ; 
+        $users = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+        return $users ; 
+    }
+
+    public static function getByEmail($email){
+        $connexion = connexionBdd() ; 
+        $requete = $connexion->prepare("SELECT user_id, login,email, password FROM users WHERE email = :email") ; 
+        $requete->bindParam(':email', $email, PDO::PARAM_STR) ; 
+        $requete->execute() ; 
+        $user = $requete->fetch(PDO::FETCH_ASSOC) ; 
+        return $user ; 
+    }
+
+    public static function create($login,$email, $password){
+        try{
+            $connexion = connexionBdd() ; 
+            $hash = password_hash($password, PASSWORD_ARGON2ID);
+            $requete = $connexion->prepare("INSERT INTO `users`(user_id, login, email, password, created_at, updated_at)  VALUES(Null, :login,:email,  :password, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)") ; 
+            $requete->bindParam(':login', $login, PDO::PARAM_STR) ; 
+            $requete->bindParam(':email',$email, PDO::PARAM_STR);
+            $requete->bindParam(':password', $hash, PDO::PARAM_STR) ; 
+            $requete->execute() ; 
+
+            $user_id = $connexion->lastInsertId();
+            return new User($user_id, $login, $email, $hash, new DateTime(), new DateTime());
+        }catch(PDOException $e){
+            echo "erreur de create ".$e ; 
+        }
+    }
+
+    public static function update($id, $login, $email, $password) {
+        try {
+            $connexion = connexionBdd();
+
+            $hash = password_hash($password, PASSWORD_ARGON2ID);
+
+            $requete = $connexion->prepare("
+                UPDATE `users` 
+                SET login = :login, 
+                    email = :email, 
+                    password = :password, 
+                    updated_at = CURRENT_TIMESTAMP 
+                WHERE user_id = :id
+            ");
+
+            $requete->bindParam(':id', $id, PDO::PARAM_INT);
+            $requete->bindParam(':login', $login, PDO::PARAM_STR);
+            $requete->bindParam(':email', $email, PDO::PARAM_STR);
+            $requete->bindParam(':password', $hash, PDO::PARAM_STR);
+
+            $requete->execute();
+        } catch (PDOException $e) {
+            echo "Erreur de mise à jour : " . $e->getMessage();
+        }
+    }
+
+    public static function delete($id) {
+        try {
+            $connexion = connexionBdd();
+
+            $requete = $connexion->prepare("DELETE FROM `users` WHERE user_id = :id");
+
+            $requete->bindParam(':id', $id, PDO::PARAM_INT);
+
+            $requete->execute();
+        } catch (PDOException $e) {
+            echo "Erreur de suppression : " . $e->getMessage();
+        }
+    }
+
+
+}
+---------------------------------------------------------------------------------------------------tab 
+
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Administration — Movies</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+  <div class="container">
+    <h1 class="mb-4">Administration — Movies</h1>
+
+    <?php if (count($books) === 0){ ?>
+      <div class="alert alert-secondary text-center">Aucun film trouvé.</div>
+    <?php }else{ ?>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle bg-white shadow-sm rounded">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">Titre</th>
+              <th scope="col">Auteur</th>
+              <th scope="col">Nombre de chansons</th>
+              <th scope="col">Editeur</th>
+              <th scope="col">Disponibilité</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($albums as $row): ?>
+              <tr>
+                <td><?= htmlspecialchars($row['title']) ?></td>
+                <td><?= htmlspecialchars($row['author']) ?></td>
+                <td><?= (int)$row['songNumber'] ?></td>
+                <td><?= htmlspecialchars($row['editor']) ?></td>
+                <td>
+                  <?php if ($row['disponibility']): ?>
+                    <span class="badge bg-success">Disponible</span>
+                  <?php else: ?>
+                    <span class="badge bg-danger">Indisponible</span>
+                  <?php endif; ?>
+                </td>
+                <td>
+                  <a href="#" class="btn btn-sm btn-outline-primary">Voir</a>
+                  <a href="#" class="btn btn-sm btn-outline-warning">Éditer</a>
+                  <a href="#" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    <?php }; ?>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Administration — Movies</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+  <div class="container">
+    <h1 class="mb-4">Administration — Movies</h1>
+
+    <?php if (count($movies) === 0){ ?>
+      <div class="alert alert-secondary text-center">Aucun film trouvé.</div>
+    <?php }else{ ?>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle bg-white shadow-sm rounded">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">Titre</th>
+              <th scope="col">Auteur</th>
+              <th scope="col">Duree</th>
+              <th scope="col">Genre</th>
+              <th scope="col">Disponibilité</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($movies as $row): ?>
+              <tr>
+                <td><?= htmlspecialchars($row['title']) ?></td>
+                <td><?= htmlspecialchars($row['author']) ?></td>
+                <td><?= (float)$row['duration'] ?></td>
+                <td><?= htmlspecialchars($row['genre']) ?></td>
+                <td>
+                  <?php if ($row['disponibility']): ?>
+                    <span class="badge bg-success">Disponible</span>
+                  <?php else: ?>
+                    <span class="badge bg-danger">Indisponible</span>
+                  <?php endif; ?>
+                </td>
+                <td>
+                  <a href="#" class="btn btn-sm btn-outline-primary">Voir</a>
+                  <a href="#" class="btn btn-sm btn-outline-warning">Éditer</a>
+                  <a href="#" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    <?php }; ?>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
