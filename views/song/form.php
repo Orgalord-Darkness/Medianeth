@@ -17,7 +17,7 @@
                 <!-- Note -->
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="label-note">Note</span>
-                    <input type="text" class="form-control" id="note" name="note" max=5
+                    <input type="number" class="form-control" id="note" name="note" max=5
                            value="<?php if(isset($note)){ echo $note ;}?>" 
                            aria-describedby="label-note">
                 </div>

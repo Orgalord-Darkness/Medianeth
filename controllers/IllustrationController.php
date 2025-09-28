@@ -62,7 +62,7 @@
 				if(isset($_POST['ask'])){ 
 					if($_POST['ask'] == 'Supprimer'){ 
 						$media = Illustration::GetMediaByIllustrationId($id);
-						if(empty($media)){
+						if(empty($media) || is_null($media['book_id']) && is_null($media['movie_id']) && is_null($media['album_id']) && is_null($media['user_id'])){
 							$illustration = Illustration::delete($id) ;  
 							echo '<script>window.location.href = "/Medianeth/Illustration/adminIllustration";</script>';
 						}else{

@@ -69,10 +69,10 @@
             $connexion = connexionBdd() ; 
             $requete = $connexion->prepare("SELECT books.book_id, movies.movie_id, albums.album_id , users.user_id
                 FROM illustrations 
-                LEFT JOIN books ON illustration.illustration_id = book.illustration_id 
-                LEFT JOIN movies ON illustration.illustration_id = movie.illustration_id 
-                LEFT JOIN albums ON illustration.illustration_id = album.illustration_id 
-                LEFT JOIN albums ON illustration.illustration_id = users.illustration_id 
+                LEFT JOIN books ON illustrations.illustration_id = books.illustration_id 
+                LEFT JOIN movies ON illustrations.illustration_id = movies.illustration_id 
+                LEFT JOIN albums ON illustrations.illustration_id = albums.illustration_id 
+                LEFT JOIN users ON illustrations.illustration_id = users.illustration_id 
                 WHERE illustrations.illustration_id = :id") ; 
             $requete->bindParam(':id', $id, PDO::PARAM_INT) ; 
             $requete->execute() ; 
