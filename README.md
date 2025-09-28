@@ -36,7 +36,7 @@ Library
 - Recherche par titre approximatif (algorithme de Levenshtein)
 Dashboard
 - Vue complète de tous les médias
-- Accès aux fonctions d’administration
+- Formulaires de recherche par média
 
 ⚙️ Administration
 - Gestion des entités :
@@ -50,8 +50,7 @@ Dashboard
 👤 Utilisateur
 - Chaque utilisateur possède une illustration (avatar via URL)
 - Peut supprimer son compte
-- Les illustrations ne sont jamais stockées localement
 
 📦 Fonctionnalités métier
 - Chaque média peut être emprunté ou rendu
-- Ces actions sont gérées par des méthodes spécifiques dans les modèle
+- Ces actions sont gérées par des méthodes spécifiques dans les modèles
