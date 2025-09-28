@@ -30,6 +30,33 @@
 		return $resultats; 
 	}
 
+	function triASC($a, $b) {
+
+		$titleA = strtolower($a['title']);
+		$titleB = strtolower($b['title']);
+
+		if ($titleA == $titleB) {
+			return 0;
+		}elseif($titleA < $titleB) {
+			return -1;
+		}else {
+			return 1;
+		}
+	}
+	function triDESC($a, $b) {
+
+		$titleA = strtolower($a['title']);
+		$titleB = strtolower($b['title']);
+
+		if ($titleA == $titleB) {
+			return 0;
+		}elseif($titleA < $titleB) {
+			return 1;
+		}else {
+			return -1;
+		}
+	}
+
 	function library(){
 		$type="Book";
 		$default="Book";
@@ -98,15 +125,10 @@
 			$media = $recherches; 
 		}
 
-		if ($order === 'ASC' || $order === 'DESC') {
-			$sortedMedia = $media;
-			usort($sortedMedia, function($a, $b) use ($order) {
-				$titleA = strtolower($a['title']);
-				$titleB = strtolower($b['title']);
-				if ($titleA === $titleB) return 0;
-				return ($order === 'ASC') ? ($titleA < $titleB ? -1 : 1) : ($titleA > $titleB ? -1 : 1);
-			});
-			$media = $sortedMedia;
+		if ($order === 'ASC'){
+			usort($media,'triASC');
+		}elseif($order === 'DESC') {
+			usort($media,'triDESC');
 		}
 
 		require_once('views/home/library.php') ; 
