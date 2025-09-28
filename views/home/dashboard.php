@@ -78,9 +78,11 @@
                                 loading="lazy">
                             <p class="mb-1"><strong>Auteur :</strong> <?php echo $row['author']; ?></p>
                             <p class="mb-1"><strong>Disponibilité :</strong> 
-                                <span class="<?= $row['disponibility'] ? 'text-success' : 'text-danger' ?>">
-                                    <?php echo $status; ?>
-                                </span>
+                               <?php if ($row['disponibility']): ?>
+                                  <span class="badge bg-success">Disponible</span>
+                              <?php else: ?>
+                                  <span class="badge bg-danger">Indisponible</span>
+                              <?php endif; ?>
                             </p>
                             <?php 
                                 echo "<p class='mb-1'><strong>Nombre de pages :</strong> ".$row['pageNumber']."</p>";
@@ -183,9 +185,11 @@
                                 class="img-fluid mb-3" style="max-height:200px; object-fit:cover;" loading="lazy">
                             <p class="mb-1"><strong>Auteur :</strong> <?php echo $row['author']; ?></p>
                             <p class="mb-1"><strong>Disponibilité :</strong> 
-                                <span class="<?= $row['disponibility'] ? 'text-success' : 'text-danger' ?>">
-                                    <?php echo $status; ?>
-                                </span>
+                                <?php if ($row['disponibility']): ?>
+                                  <span class="badge bg-success">Disponible</span>
+                                <?php else: ?>
+                                    <span class="badge bg-danger">Indisponible</span>
+                                <?php endif; ?>
                             </p>
                             <?php 
                                 echo "<p class='mb-1'><strong>Durée du film :</strong> ".$row['duration']."h</p>";
@@ -294,9 +298,11 @@
                                 class="img-fluid mb-3" style="max-height:200px; object-fit:cover;" loading="lazy">
                             <p class="mb-1"><strong>Auteur :</strong> <?php echo $row['author']; ?></p>
                             <p class="mb-1"><strong>Disponibilité :</strong> 
-                                <span class="<?= $row['disponibility'] ? 'text-success' : 'text-danger' ?>">
-                                    <?php echo $status; ?>
-                                </span>
+                                <?php if ($row['disponibility']): ?>
+                                  <span class="badge bg-success">Disponible</span>
+                                <?php else: ?>
+                                    <span class="badge bg-danger">Indisponible</span>
+                                <?php endif; ?>
                             </p>
                             <?php 
                                 echo "<p class='mb-1'><strong>Nombre de chansons :</strong> ".$row['songNumber']."</p>";
