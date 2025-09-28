@@ -97,6 +97,52 @@
             return $album ; 
         }
 
+        public static function GetAlbumBySearch($title, $author, $dispo, $n1, $n2, $editor){ 
+            try{
+                $connexion = connexionBdd() ; 
+                $sql = "SELECT album_id,title,author,disponibility,songNumber,editor, link FROM albums INNER JOIN illustrations ON albums.illustration_id = illustrations.illustration_id";
+                $requete = $connexion->prepare($sql); 
+                if (!empty($title)) {
+                    $sql .= " AND title LIKE :title";
+                }
+                if (!empty($author)) {
+                    $sql .= " AND author LIKE :author";
+                }
+                if (!empty($dispo)) {
+                    $sql .= " AND disponibility = :dispo";
+                }
+                if (!empty($n1) && !empty($n2)) {
+                    $sql .= " AND songNumber BETWEEN :n1 AND :n2";
+                }
+                if (!empty($editor)) {
+                    $sql .= " AND editor LIKE :editor";
+                }
+                $requete = $connexion->prepare($sql);
+
+                if (!empty($title)) {
+                    $requete->bindValue(':title', "%$title%", PDO::PARAM_STR); 
+                }
+                if (!empty($author)) {
+                    $requete->bindValue(':author', "%$author%", PDO::PARAM_STR);
+                }
+                if (!empty($dispo)) {
+                    $requete->bindValue(':dispo', $dispo, PDO::PARAM_INT);
+                }
+                if (!empty($n1) && !empty($n2)) {
+                    $requete->bindValue(':n1', $n1, PDO::PARAM_INT);
+                    $requete->bindValue(':n2', $n2, PDO::PARAM_INT);
+                }
+                if (!empty($editor)) {
+                    $requete->bindValue(':editor', "%$editor%", PDO::PARAM_STR);
+                }
+                $requete->execute() ; 
+                $albums = $requete->fetchAll(PDO::FETCH_ASSOC);
+                return $albums ; 
+            }catch(PDOException $e){
+                echo "Erreur de suppression".$e ; 
+            }
+        }
+
         public static function create($titre, $auteur, $disponible,$songNumber, $editor,$illustration_id){
             try{
                 $connexion = connexionBdd() ; 

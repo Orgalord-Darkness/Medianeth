@@ -132,7 +132,38 @@
 		$books = Book::getBook();
 		$movies = Movie::getMovie();
 		$albums = Album::getAlbum();
-
+		if(isset($_POST['media-book']) && !empty($_POST['media-book'])){
+			if(isset($_POST['title']) && isset($_POST['author']) && isset($_POST['dispo']) && isset($_POST['n1']) && isset($_POST['n2'])){
+				$title = $_POST['title'];
+				$author=$_POST['author'];
+				$dispo = $_POST['dispo'];
+				$n1 = $_POST['n1'];
+				$n2 = $_POST['n2'];
+				$books = Book::GetBookBySearch($title, $author, $dispo, $n1, $n2);
+			}
+		}
+		if(isset($_POST['media-movie']) && !empty($_POST['media-movie'])){
+			if(isset($_POST['title']) && isset($_POST['author']) && isset($_POST['dispo']) && isset($_POST['n1']) && isset($_POST['n2']) && isset($_POST['genre'])){
+				$title = $_POST['title'];
+				$author=$_POST['author'];
+				$dispo = $_POST['dispo'];
+				$n1 = $_POST['n1'];
+				$n2 = $_POST['n2'];
+				$genre = $_POST['genre'];
+				$movies = Movie::GetMovieBySearch($title, $author, $dispo, $n1, $n2,$genre);
+			}
+		}
+		if(isset($_POST['media-album']) && !empty($_POST['media-album'])){
+			if(isset($_POST['title']) && isset($_POST['author']) && isset($_POST['dispo']) && isset($_POST['n1']) && isset($_POST['n2']) && isset($_POST['editor'])){
+				$title = $_POST['title'];
+				$author=$_POST['author'];
+				$dispo = $_POST['dispo'];
+				$n1 = $_POST['n1'];
+				$n2 = $_POST['n2'];
+				$editor = $_POST['editor'];
+				$albums = Album::GetAlbumBySearch($title, $author, $dispo, $n1, $n2,$editor);
+			}
+		}
 		require_once('views/home/dashboard.php');
 
 	}

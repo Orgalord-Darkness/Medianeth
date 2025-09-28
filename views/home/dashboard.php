@@ -2,33 +2,57 @@
     <body>
         <div class="container my-4">
             <h1>Bonjour <?php if(isset($_SESSION['login'])): echo $_SESSION['login'] ; endif ?></h1>
-            <div class="row">
-                <div class="col">
+        </div>
+        
+        <div class="container my-4">
+            <div class="card shadow-sm bg-primary-subtle">
+                <div class="card-header text-center bg-primary text-white">
+                    <h4>Recherche de livres</h4>
+                </div>
+                <div class="card-body">
                     <form method="POST">
-                        <div class="row">
-                            <div class="col">
-                                <label for="search" class="form-label">Rechercher</label>
-                                <input type="text" name="search" value="<?php if(isset($search)){ echo $search ;}?>" class="form-control form-control-lg" placeholder="Rechercher un titre...">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="title" class="form-label">Titre</label>
+                                <input type="text" name="title" class="form-control" value="<?php echo isset($title) ? $title : ''; ?>" placeholder="Rechercher un titre...">
                             </div>
-                            <div class="col mb-0">
-                                <label for="order" class="form-label">Trier le titre par ordre</label>
-                                <select name="order" class="form-select form-select-lg">
-                                    <option value="null">Choisir l'ordre</option>
-                                    <option value="ASC">A - Z</option>
-                                    <option value="DESC">Z - A</option>
+                            <div class="col-md-6">
+                                <label for="author" class="form-label">Auteur</label>
+                                <input type="text" name="author" class="form-control" value="<?php echo isset($author) ? $author : ''; ?>" placeholder="Rechercher un auteur...">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="dispo" class="form-label">Disponibilité</label>
+                                <select name="dispo" class="form-select">
+                                    <option value="" selected>Toutes les disponibilités</option>
+                                    <option value="1" <?php echo isset($dispo) && $dispo == 1 ? 'selected' : ''; ?>>Disponible</option>
+                                    <option value="0" <?php echo isset($dispo) && $dispo == 0 ? 'selected' : ''; ?>>Indisponible</option>
                                 </select>
                             </div>
-                            <div class="col">
-                                <input title="lancer la recherche" type="submit" class="btn btn-primary btn-lg" name="rechercher" value="Rechercher">
+                            <div class="col-md-6">
+                                <label for="n1" class="form-label">Plage de pages (de)</label>
+                                <input type="number" name="n1" class="form-control" value="<?php echo isset($n1) ? $n1 : ''; ?>" placeholder="Page de départ">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="n2" class="form-label">Plage de pages (à)</label>
+                                <input type="number" name="n2" class="form-control" value="<?php echo isset($n2) ? $n2 : ''; ?>" placeholder="Page d'arrivée">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 d-flex align-items-end">
+                                <input type="hidden" name="media-book" value="Book"/>
+                                <input type="submit" name="rechercher" class="btn btn-primary w-100" value="Rechercher">
                             </div>
                         </div>
                     </form>
                 </div>
-
             </div>
-        </div>
-        
-        <div class="container my-4">
             <h1>Livres : </h1>
             <div class="row g-4">
                 <?php 
@@ -43,7 +67,7 @@
                         }
                 ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="card h-100 shadow-sm border-0">
+                    <div class="card h-100 shadow border-1">
                         <div class="card-header bg-primary text-white text-center py-2">
                             <h5 class="mb-0 text-truncate"><?php echo $row['title']; ?></h5>
                         </div>
@@ -83,6 +107,58 @@
         </div>
         
         <div class="container my-4">
+            <div class="card shadow-sm bg-primary-subtle">
+                <div class="card-header text-center bg-primary text-white">
+                    <h4>Recherche de Films</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="title" class="form-label">Titre</label>
+                                <input type="text" name="title" id="title" class="form-control" value="<?php echo isset($title) ? $title : ''; ?>" placeholder="Rechercher un titre...">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="author" class="form-label">Auteur</label>
+                                <input type="text" name="author" id="author" class="form-control" value="<?php echo isset($author) ? $author : ''; ?>" placeholder="Rechercher un auteur...">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="dispo" class="form-label">Disponibilité</label>
+                                <select name="dispo" id="dispo" class="form-select">
+                                    <option value="" selected>Toutes les disponibilités</option>
+                                    <option value="1" <?php echo isset($dispo) && $dispo == 1 ? 'selected' : ''; ?>>Disponible</option>
+                                    <option value="0" <?php echo isset($dispo) && $dispo == 0 ? 'selected' : ''; ?>>Indisponible</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="n1" class="form-label">Durée (de)</label>
+                                <input type="number" name="n1" id="n1" class="form-control" value="<?php echo isset($n1) ? $n1 : ''; ?>" placeholder="Durée minimale en minutes">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="n2" class="form-label">Durée (à)</label>
+                                <input type="number" name="n2" id="n2" class="form-control" value="<?php echo isset($n2) ? $n2 : ''; ?>" placeholder="Durée maximale en minutes">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="genre" class="form-label">Genre</label>
+                                <input type="text" name="genre" id="genre" class="form-control" value="<?php echo isset($genre) ? $genre : ''; ?>" placeholder="Rechercher un genre...">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 d-flex align-items-end">
+                                <input type="hidden" name="media-movie" value="Movie"/>
+                                <input type="submit" name="rechercher" class="btn btn-primary w-100" value="Rechercher">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <h1>Films : </h1>
             <div class="row g-4">
                 <?php 
@@ -97,7 +173,7 @@
                         }
                 ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="card h-100 shadow-sm border-0">
+                    <div class="card h-100 shadow border-1">
                         <div class="card-header bg-primary text-white text-center py-2">
                             <h5 class="mb-0 text-truncate"><?php echo $row['title']; ?></h5>
                         </div>
@@ -139,6 +215,62 @@
         
         <div class="container my-4">
             <h1>Albums : </h1>
+            <form method="POST">
+                <div class="container my-4">
+                    <div class="card shadow bg-primary-subtle">
+                        <div class="card-header text-center bg-primary text-white">
+                            <h4>Recherche d'album</h4>
+                        </div>
+                        <div class="card-body bg-light">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="title" class="form-label">Titre</label>
+                                    <input type="text" name="title" class="form-control" placeholder="Titre de l'album" value="<?php if (isset($title)) echo $title; ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="author" class="form-label">Auteur</label>
+                                    <input type="text" name="author" class="form-control" placeholder="Auteur de l'album" value="<?php if (isset($author)) echo $author; ?>">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="dispo" class="form-label">Disponibilité</label>
+                                    <select name="dispo" id="dispo" class="form-select">
+                                        <option value="">Choisir la disponibilité</option>
+                                        <option value="1" <?php if (isset($dispo) && $dispo == 1) echo 'selected'; ?>>Disponible</option>
+                                        <option value="0" <?php if (isset($dispo) && $dispo == 0) echo 'selected'; ?>>Indisponible</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="songNumberStart" class="form-label">Nombre de chansons (de)</label>
+                                    <input type="number" name="n1" class="form-control" placeholder="Min." value="<?php if (isset($n1)) echo $n1; ?>">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="songNumberEnd" class="form-label">Nombre de chansons (à)</label>
+                                    <input type="number" name="n2" class="form-control" placeholder="Max." value="<?php if (isset($n2)) echo $n2; ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editor" class="form-label">Éditeur</label>
+                                    <input type="text" name="editor" class="form-control" placeholder="Éditeur de l'album" value="<?php if (isset($editor)) echo $editor; ?>">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-12 d-flex align-items-end">
+                                    <input type="hidden" name="media-album" value="Album"/>
+                                    <button type="submit" name="rechercher" class="btn btn-primary w-100">Rechercher</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
             <div class="row g-4">
                 <?php 
                 if(isset($albums)):
@@ -152,7 +284,7 @@
                         }
                 ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="card h-100 shadow-sm border-0">
+                    <div class="card h-100 shadow border-1">
                         <div class="card-header bg-primary text-white text-center py-2">
                             <h5 class="mb-0 text-truncate"><?php echo $row['title']; ?></h5>
                         </div>

@@ -59,6 +59,48 @@
             return $books ; 
         }
 
+        public static function GetBookBySearch($title, $author, $dispo, $apgeNumber){ 
+            try{
+                $connexion = connexionBdd() ; 
+                $sql = "SELECT book_id, title,author,disponibility,pageNumber,illustrations.link FROM books INNER JOIN illustrations ON books.illustration_id = illustrations.illustration_id";
+                $requete = $connexion->prepare($sql); 
+                if (!empty($title)) {
+                    $sql .= " AND title LIKE :title";
+                }
+                if (!empty($author)) {
+                    $sql .= " AND author LIKE :author";
+                }
+                if (!empty($dispo)) {
+                    $sql .= " AND disponibility = :dispo";
+                }
+                if (!empty($n1) && !empty($n2)) {
+                    $sql .= " AND pageNumber BETWEEN :n1 AND :n2";
+                }
+
+                $requete = $connexion->prepare($sql);
+
+                if (!empty($title)) {
+                    $requete->bindValue(':title', "%$title%", PDO::PARAM_STR); 
+                }
+                if (!empty($author)) {
+                    $requete->bindValue(':author', "%$author%", PDO::PARAM_STR);
+                }
+                if (!empty($dispo)) {
+                    $requete->bindValue(':dispo', $dispo, PDO::PARAM_INT);
+                }
+                if (!empty($n1) && !empty($n2)) {
+                    $requete->bindValue(':n1', $n1, PDO::PARAM_INT);
+                    $requete->bindValue(':n2', $n2, PDO::PARAM_INT);
+                }
+
+                $requete->execute() ; 
+                $books = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+                return $books ; 
+            }catch(PDOException $e){
+                echo "Erreur de suppression".$e ; 
+            }
+        }
+
         public static function GetBookByDispo($dispo){ 
         try{
                 $connexion = connexionBdd(); 

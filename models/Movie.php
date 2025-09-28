@@ -97,6 +97,56 @@
         return $movie ; 
     }
 
+    public static function GetMovieBySearch($title, $author, $dispo, $n1, $n2, $genre){ 
+        try{
+            $connexion = connexionBdd() ; 
+            $sql = "SELECT movie_id, title,author,disponibility,duration,genre,illustrations.link FROM movies INNER JOIN illustrations ON movies.illustration_id = illustrations.illustration_id";
+            $requete = $connexion->prepare($sql); 
+           if (!empty($title)) {
+                $sql .= " AND title LIKE :title";
+            }
+            if (!empty($author)) {
+                $sql .= " AND author LIKE :author";
+            }
+            if (!empty($dispo)) {
+                $sql .= " AND disponibility = :dispo";
+            }
+            if (!empty($n1) && !empty($n2)) {
+                $sql .= " AND duration BETWEEN :n1 AND :n2";
+            }
+            if (!empty($genre)) {
+                $sql .= " AND genre LIKE :genre";
+            }
+
+            $requete = $connexion->prepare($sql);
+
+            if (!empty($title)) {
+                $requete->bindValue(':title', "%$title%", PDO::PARAM_STR); 
+            }
+            if (!empty($author)) {
+                $requete->bindValue(':author', "%$author%", PDO::PARAM_STR);
+            }
+            if (!empty($dispo)) {
+                $requete->bindValue(':dispo', $dispo, PDO::PARAM_INT);
+            }
+            if (!empty($n1) && !empty($n2)) {
+                $requete->bindValue(':n1', $n1, PDO::PARAM_INT);
+                $requete->bindValue(':n2', $n2, PDO::PARAM_INT);
+            }
+            if (!empty($genre)) {
+                $requete->bindValue(':genre', "%$genre%", PDO::PARAM_STR);
+            }
+
+
+            $requete->execute() ; 
+            $movies = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+            return $movies ; 
+        }catch(PDOException $e){
+            echo "Erreur de suppression".$e ; 
+        }
+    }
+
+
     public static function create($titre, $auteur, $disponible,$duration, $genre, $illustration_id){
         try{
             $enumGenre = Genre::from($genre); 
