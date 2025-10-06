@@ -1,12 +1,7 @@
 <?php 
     function adminBook(){
-		$books = Book::GetBook() ; 
+		$books = Book::GetBook() ;
         require_once('views/book/administration.php') ; 
-	}
-
-	function libraryBook(){
-		$books = Book::GetBook(); 
-		require_once('views/ocupancy/library.php') ; 
 	}
 
 	function addBook(){

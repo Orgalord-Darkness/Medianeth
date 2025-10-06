@@ -197,5 +197,26 @@
                 echo "Erreur de suppression".$e ; 
             }
         }
+
+        public static function GetBookPagi($limit, $offset){
+            $connexion = connexionBdd();
+            $requete = $connexion->prepare("SELECT * FROM books LIMIT :limit OFFSET :offset"); 
+            $requete->bindParam(':limit',$limit, PDO::PARAM_INT);
+            $requete->bindParam(':offset',$offset, PDO::PARAM_INT);
+            $requete->execute();
+            $books = $requete->fetchAll(PDO::FETCH_ASSOC) ; 
+
+            return $books; 
+        }
+
+        public static function count(){
+            $connexion = connexionBdd();
+            $requete = $connexion->prepare("SELECT count(*) FROM books");
+            $requete->execute();
+            $nb = $requete->fetchColumn();
+
+            return $nb; 
+
+        }
         
     }

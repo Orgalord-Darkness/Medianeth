@@ -11,6 +11,7 @@
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <?php if(isset($_SESSION['user_id'])): ?>
         <li class="nav-item"><a class="nav-link text-white" href="/Medianeth/Home/dashboard/"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/Medianeth/Home/libraryPage/"><i class="fa-solid fa-gauge"></i> Pagination</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="/Medianeth/Book/adminBook/"><i class="fa-solid fa-book"></i> Livre</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="/Medianeth/Movie/adminMovie"><i class="fa-solid fa-film"></i> Film</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="/Medianeth/Album/adminAlbum"><i class="fa-solid fa-record-vinyl"></i> Album</a></li>

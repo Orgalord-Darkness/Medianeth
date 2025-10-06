@@ -251,3 +251,65 @@
 		}
 		echo '<script>window.location.href = "/Medianeth/Home/'.$page.'";</script>';
 	}
+
+	function libraryPage() {
+		$type = $_POST['default'] ?? $_POST['media'] ?? 'Book';
+		$default = $type;
+		$order = $_POST['order'] ?? null;
+		$dispo = $_POST['disponibility'] ?? null;
+		$search = $_POST['search'] ?? null;
+
+		$limit = 10;
+		$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+		$offset = ($page - 1) * $limit;
+		$books = Book::GetBook();
+		$movies = Movie::GetMovie();
+		$albums = Album::GetAlbum();
+
+		switch ($type) {
+			case 'Book':
+				$media = $books;
+				if (!empty($dispo)) {
+					$media = Book::GetBookByDispo($dispo);
+				}
+				if (!empty($search)) {
+					$media = leven($media, $search);
+				}
+				if ($order === 'ASC') {
+					usort($media, 'triASC');
+				} elseif ($order === 'DESC') {
+					usort($media, 'triDESC');
+				}
+				$count = count($media);
+				$totalPages = ceil($count / $limit);
+				$media = array_slice($media, $offset, $limit);
+
+				$fields = "book";
+				break;
+
+			case 'Movie':
+				$media = !empty($dispo) ? Movie::GetMovieByDispo($dispo) : $movies;
+				$count = count($media);
+				$totalPages = ceil($count / $limit);
+				$media = array_slice($media, $offset, $limit);
+				$fields = "movie";
+				break;
+
+			case 'Album':
+				$media = !empty($dispo) ? Album::GetAlbumByDispo($dispo) : $albums;
+				$count = count($media);
+				$totalPages = ceil($count / $limit);
+				$media = array_slice($media, $offset, $limit);
+				$fields = "album";
+				break;
+
+			default:
+				$media = $books;
+				$count = count($media);
+				$totalPages = ceil($count / $limit);
+				$media = array_slice($media, $offset, $limit);
+				$fields = "book";
+		}
+		require_once('views/home/library_page.php');
+	}
+
