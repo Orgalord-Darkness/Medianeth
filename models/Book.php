@@ -200,7 +200,7 @@
 
         public static function GetBookPagi($limit, $offset){
             $connexion = connexionBdd();
-            $requete = $connexion->prepare("SELECT * FROM books LIMIT :limit OFFSET :offset"); 
+            $requete = $connexion->prepare("SELECT book_id, pageNumber, title, author, disponibility, illustrations.link FROM books INNER JOIN illustrations ON books.illustration_id = illustrations.illustration_id LIMIT :limit OFFSET :offset"); 
             $requete->bindParam(':limit',$limit, PDO::PARAM_INT);
             $requete->bindParam(':offset',$offset, PDO::PARAM_INT);
             $requete->execute();

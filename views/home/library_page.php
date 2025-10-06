@@ -122,15 +122,20 @@
                 <?php else: ?>
                     <h3 class="text-center">Aucun résultats</h3>
                 <?php endif; ?>
-                <nav>
-                    <ul class="pagination justify-content-center">
-                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+               <nav>
+                <ul class="pagination justify-content-center">
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                         <li class="page-item <?= ($i === $page) ? 'active' : '' ?>">
-                            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                            <a class="page-link" href="?page=<?= $i ?>">
+                                <?= $i ?>
+                            </a>
                         </li>
-                        <?php endfor; ?>
-                    </ul>
-                </nav>
+                    <?php endfor; ?>
+                </ul>
+            </nav>
+
+
+
             </div>
         </div>
     </body>

@@ -252,9 +252,102 @@
 		echo '<script>window.location.href = "/Medianeth/Home/'.$page.'";</script>';
 	}
 
+	// function libraryPage(){
+	// 	$type="Book";
+	// 	$default="Book";
+	// 	$count = 0; 	
+		
+	// 	$books = Book::GetBook();
+	// 	$limit = 10;
+	// 	$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+	// 	$offset = ($page - 1) * $limit;
+
+	// 	$books = Book::GetBookPagi($limit, $offset);
+	// 	$total = Book::count();
+	// 	$totalPages = ceil($total / $limit);
+	// 	$movies = Movie::GetMovie();
+	// 	$albums = Album::GetAlbum();
+	// 	if(isset($_POST['default']) && !empty($_POST['default'])){
+	// 		$type = $_POST['default'];
+	// 		$default = $_POST['default'];
+	// 	}elseif(isset($_POST['media']) && !empty($_POST['media'])){
+	// 		$type= $_POST['media'];
+	// 	}
+	// 	if(isset($_POST['order'])){
+	// 		$order = $_POST['order'];
+	// 	}else{
+	// 		$order = null; 
+	// 	}
+	// 	if(isset($_POST['disponibility'])){
+	// 		$dispo = $_POST['disponibility'];
+	// 	}else{
+	// 		$dispo = null;
+	// 	}
+	// 	switch($type) :
+	// 		case 'Book': 
+	// 			$count = count($books); 
+	// 			if(!empty($dispo)){
+	// 				$media = Book::GetBookByDispo($dispo);
+	// 			}else{
+	// 				$media  = $books; 
+	// 			}
+	// 			$fields = "book";
+	// 			$default = "Book";
+	// 			break; 
+	// 		case 'Movie': 
+	// 			$count = count($movies); 
+	// 			if(!empty($dispo)){
+	// 				$media = Movie::GetMovieByDispo($dispo);
+	// 			}else{
+	// 				$media  = $movies; 
+	// 			}
+	// 			$fields = "movie";
+	// 			$default = "Movie";
+	// 			break ; 
+			
+	// 		case 'Album': 
+	// 			$count = count($albums); 
+	// 			if($order != null){
+	// 				$media = Album::GetAlbumByDispo($dispo);
+	// 			}else{
+	// 				$media  = $albums; 
+	// 			}
+	// 			$fields = "album";
+	// 			$default = "Album";
+	// 			break; 
+	// 		default : 
+	// 			$count = count($books); 
+	// 			$media  = $books; 
+	// 			$fields = "book";
+	// 			$default = "Book";
+	// 	endswitch ; 
+		
+	// 	if(isset($_POST['search']) && !empty($_POST['search'])){
+	// 		$search = $_POST['search'];
+	// 		$recherches = leven($media, $search); 
+	// 		$media = $recherches; 
+	// 	}
+
+	// 	if ($order === 'ASC'){
+	// 		usort($media,'triASC');
+	// 	}elseif($order === 'DESC') {
+	// 		usort($media,'triDESC');
+	// 	}
+	// 	if(isset($_GET['page']) && !empty($_GET['page'])){
+	// 		$limit = 10;
+	// 		$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+	// 		$offset = ($page - 1) * $limit;
+
+	// 		$books = Book::GetBookPagi($limit, $offset);
+	// 		$total = Book::count();
+	// 		$totalPages = ceil($total / $limit);
+	// 	}
+
+	// 	require_once('views/home/library_page.php') ; 
+	// }
+
 	function libraryPage() {
 		$type = $_POST['default'] ?? $_POST['media'] ?? 'Book';
-		$default = $type;
 		$order = $_POST['order'] ?? null;
 		$dispo = $_POST['disponibility'] ?? null;
 		$search = $_POST['search'] ?? null;
@@ -262,54 +355,60 @@
 		$limit = 10;
 		$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 		$offset = ($page - 1) * $limit;
-		$books = Book::GetBook();
-		$movies = Movie::GetMovie();
-		$albums = Album::GetAlbum();
+
+		$fields = '';
+		$media = [];
+		$total = 0;
 
 		switch ($type) {
 			case 'Book':
-				$media = $books;
 				if (!empty($dispo)) {
 					$media = Book::GetBookByDispo($dispo);
+				} elseif (!empty($search)) {
+					$media = leven(Book::GetBook(), $search);
+				} else {
+					$media = Book::GetBookPagi($limit, $offset);
 				}
-				if (!empty($search)) {
-					$media = leven($media, $search);
-				}
-				if ($order === 'ASC') {
-					usort($media, 'triASC');
-				} elseif ($order === 'DESC') {
-					usort($media, 'triDESC');
-				}
-				$count = count($media);
-				$totalPages = ceil($count / $limit);
-				$media = array_slice($media, $offset, $limit);
 
-				$fields = "book";
+				$total = Book::count(); // total pour pagination
+				$fields = 'book';
 				break;
 
 			case 'Movie':
-				$media = !empty($dispo) ? Movie::GetMovieByDispo($dispo) : $movies;
-				$count = count($media);
-				$totalPages = ceil($count / $limit);
-				$media = array_slice($media, $offset, $limit);
-				$fields = "movie";
+				if (!empty($dispo)) {
+					$media = Movie::GetMovieByDispo($dispo);
+				} else {
+					$media = Movie::GetMovie(); // à paginer si tu as Movie::GetMoviePagi
+				}
+
+				$total = count($media); // ou Movie::count() si dispo
+				$fields = 'movie';
 				break;
 
 			case 'Album':
-				$media = !empty($dispo) ? Album::GetAlbumByDispo($dispo) : $albums;
-				$count = count($media);
-				$totalPages = ceil($count / $limit);
-				$media = array_slice($media, $offset, $limit);
-				$fields = "album";
-				break;
+				if (!empty($dispo)) {
+					$media = Album::GetAlbumByDispo($dispo);
+				} else {
+					$media = Album::GetAlbum(); // idem, à paginer si méthode dispo
+				}
 
-			default:
-				$media = $books;
-				$count = count($media);
-				$totalPages = ceil($count / $limit);
-				$media = array_slice($media, $offset, $limit);
-				$fields = "book";
+				$total = count($media); // ou Album::count()
+				$fields = 'album';
+				break;
 		}
+
+		// Recherche et tri (appliqués après récupération)
+		if (!empty($search)) {
+			$media = leven($media, $search);
+		}
+
+		if ($order === 'ASC') {
+			usort($media, 'triASC');
+		} elseif ($order === 'DESC') {
+			usort($media, 'triDESC');
+		}
+
+		$totalPages = ceil($total / $limit);
+
 		require_once('views/home/library_page.php');
 	}
-
